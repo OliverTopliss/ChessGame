@@ -1,9 +1,9 @@
 public class Knight extends Piece
 {
-  @Override
+
   public Knight()
   {
-    super();
+    super("White");
   }//Knight Constructor
 
   @Override
@@ -15,6 +15,6 @@ public class Knight extends Piece
   @Override
   public String toString()
   {
-
+    return "@";
   }//toString method//Queen Constructor
 }//Piece

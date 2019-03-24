@@ -1,9 +1,9 @@
 public class King extends Piece
 {
-  @Override
+
   public King()
   {
-    super();
+    super("White");
   }//King Constructor
 
   @Override
@@ -15,12 +15,12 @@ public class King extends Piece
   @Override
   public String toString()
   {
-
+    return "?";
   }//toString method
 
   public boolean isInCheck()
   {
-
+    return false;
   }//isInCheck Method
 
   public void checkSafety()

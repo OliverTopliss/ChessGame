@@ -9,7 +9,7 @@ public abstract class Piece
 
   public static boolean isPlayersTeam()
   {
-
+    return true;
   }//isPlayersTeam Method
 
   public abstract void move();

@@ -1,9 +1,9 @@
 public class Bishop extends Piece
 {
-  @Override
+
   public Bishop()
   {
-    super();
+    super("White");
   }//Bishop Constructor
 
   @Override
@@ -15,6 +15,6 @@ public class Bishop extends Piece
   @Override
   public String toString()
   {
-
+    return "o";
   }//toString method
 }//Bishop Class

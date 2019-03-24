@@ -1,9 +1,9 @@
 public class Pawn extends Piece
 {
-  @Override
+
   public Pawn()
   {
-    super();
+    super("White");
   }//Pawn Constructor
 
   @Override
@@ -15,6 +15,6 @@ public class Pawn extends Piece
   @Override
   public String toString()
   {
-
+    return "%";
   }//toString method
 }//Pawn Class

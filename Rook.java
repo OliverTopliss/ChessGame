@@ -1,9 +1,9 @@
 public class Rook extends Piece
 {
-  @Override
+
   public Rook()
   {
-    super();
+    super("White");
   }//Rook Constructor
 
   @Override
@@ -15,7 +15,7 @@ public class Rook extends Piece
   @Override
   public String toString()
   {
-
+    return "#";
   }//toString method
 
 }//Rook

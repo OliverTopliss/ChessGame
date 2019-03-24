@@ -1,9 +1,9 @@
 public class Queen extends Piece
 {
-  @Override
+
   public Queen()
   {
-    super();
+    super("White");
   }//Queen Constructor
 
 
@@ -16,6 +16,6 @@ public class Queen extends Piece
   @Override
   public String toString()
   {
-
+    return "*";
   }//toString method
 }//Queen Class
