@@ -1,7 +1,7 @@
 public class Board
 {
   //stores the 2d array of the board
-  private String[][] board;
+  private String[][] board = new String[8][8];
 
   public Board()
   {
@@ -17,8 +17,9 @@ public class Board
 
   // method thast is used to intialisie the board to starting conditions
   // takes an array of pieces whichg are to be added to the board
-  private void initialise(Piece[] arrayOfPieces)
+  public void initialise(/*Piece[] arrayOfPieces*/)
   {
+    System.out.println(board);
   }// initialise Method
 
   private void clearPosition(String xCoordinate, int yCoordinate)
@@ -29,13 +30,15 @@ public class Board
   @Override
   public String toString()
   {
+    String boardAsString = "";
     for (int row = 1; row <= 8; row++)
     {
       for (int column = 1; column <= 8; column++)
       {
-        System.out.print(board[row - 1][column - 1]);
+        boardAsString += (board[row - 1][column - 1]);
       }// for
-      System.out.println();
+      boardAsString += "\n";
     }// for
+    return boardAsString;
   }// toString
 }// Board Class
