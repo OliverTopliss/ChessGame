@@ -1,9 +1,9 @@
 public class Knight extends Piece
 {
 
-  public Knight()
+  public Knight(String team)
   {
-    super("White");
+    super(team);
   }//Knight Constructor
 
   @Override

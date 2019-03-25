@@ -1,9 +1,9 @@
 public class Rook extends Piece
 {
 
-  public Rook()
+  public Rook(String team)
   {
-    super("White");
+    super(team);
   }//Rook Constructor
 
   @Override

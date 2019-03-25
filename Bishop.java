@@ -1,9 +1,9 @@
 public class Bishop extends Piece
 {
 
-  public Bishop()
+  public Bishop(String team)
   {
-    super("White");
+    super(team);
   }//Bishop Constructor
 
   @Override

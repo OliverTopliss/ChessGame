@@ -17,8 +17,17 @@ public class Board
 
   // method thast is used to intialisie the board to starting conditions
   // takes an array of pieces whichg are to be added to the board
-  public void initialise(/*Piece[] arrayOfPieces*/)
+  public void initialise(Piece[] arrayOfPieces)
   {
+    for (int whitePawnNumber = 1; whitePawnNumber <= 8; whitePawnNumber++)
+    {
+      board[1][whitePawnNumber - 1] = arrayOfPieces[whitePawnNumber - 1];
+    }
+
+    for (int blackPawnNumber = 9; blackPawnNumber <= 16; blackPawnNumber++)
+    {
+      board[1][blackPawnNumber - 1] = arrayOfPieces[blackPawnNumber - 1];
+    }
     System.out.println(board);
   }// initialise Method
 

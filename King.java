@@ -1,9 +1,9 @@
 public class King extends Piece
 {
 
-  public King()
+  public King(String team)
   {
-    super("White");
+    super(team);
   }//King Constructor
 
   @Override

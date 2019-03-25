@@ -1,9 +1,9 @@
 public class Queen extends Piece
 {
 
-  public Queen()
+  public Queen(String team)
   {
-    super("White");
+    super(team);
   }//Queen Constructor
 
 

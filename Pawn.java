@@ -1,12 +1,11 @@
 public class Pawn extends Piece
 {
 
-  public Pawn()
+  public Pawn(String team)
   {
-    super("White");
+    super(team);
   }//Pawn Constructor
 
-  @Override
   public void move()
   {
 
