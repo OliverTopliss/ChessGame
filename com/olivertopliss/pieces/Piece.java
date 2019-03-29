@@ -16,7 +16,7 @@ public abstract class Piece
     return true;
   }//isPlayersTeam Method
 
-  public abstract void move();
+  public abstract void move(int xDestination, int yDestination);
 
   public abstract String toString();
 }//Piece Class
