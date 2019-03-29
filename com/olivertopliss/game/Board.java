@@ -39,6 +39,7 @@ public class Board
     board[7][1] = new Knight("Black");
     board[7][6] = new Knight("Black");
 
+    //swap array indices for the starting x and y coordinates
     board[0][2] = new Bishop("White", 2, 0);
     board[0][5] = new Bishop("White", 5, 0);
     board[7][2] = new Bishop("Black", 2, 7);
