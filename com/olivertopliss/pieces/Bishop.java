@@ -9,7 +9,7 @@ public class Bishop extends Piece
   }//Bishop Constructor
 
   @Override
-  public void move(int xDestination, int yDestinatiion)
+  public void move(int xDestination, int yDestination)
   {
     //checks if the requested move is legal
     if(abs(currentXCoordinate - xDestination) == abs(currentYCoordinate - yDestinatiion))
