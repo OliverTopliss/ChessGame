@@ -39,10 +39,10 @@ public class Board
     board[7][1] = new Knight("Black");
     board[7][6] = new Knight("Black");
 
-    board[0][2] = new Bishop("White");
-    board[0][5] = new Bishop("White");
-    board[7][2] = new Bishop("Black");
-    board[7][5] = new Bishop("Black");
+    board[0][2] = new Bishop("White", 2, 0);
+    board[0][5] = new Bishop("White", 5, 0);
+    board[7][2] = new Bishop("Black", 2, 7);
+    board[7][5] = new Bishop("Black", 5, 7);
 
     board[0][3] = new Queen("White");
     board[7][4] = new Queen("Black");
