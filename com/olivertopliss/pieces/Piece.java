@@ -11,6 +11,18 @@ public abstract class Piece
     currentYCoordinate = startYCoordinate;
   }//Piece Constructor
 
+  // accessor method for the currentXCoordinate
+  public int getCurrentXCoordinate()
+  {
+    return currentXCoordinate;
+  }// getCurrentXCoordinate
+
+  // accessor method for the currentYCoordinate
+  public int getCurrentYCoordinate()
+  {
+    return currentYCoordinate;
+  }// getCurrentYCoordinate
+
   public static boolean isPlayersTeam()
   {
     return true;
