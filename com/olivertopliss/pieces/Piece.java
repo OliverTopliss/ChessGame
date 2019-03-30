@@ -23,6 +23,18 @@ public abstract class Piece
     return currentYCoordinate;
   }// getCurrentYCoordinate
 
+  // mutator method for the currentXCoordinate
+  public void setCurrentXCoordinate(int newXCoordinate)
+  {
+    currentXCoordinate =  newXCoordinate;
+  }// setCurrentXCoordinate
+
+  // mutator method for the currentYCoordinate
+  public void setCurrentYCoordinate(int newYCoordinate)
+  {
+    currentYCoordinate = newYCoordinate;
+  }// setCurrentYCoordinate
+
   public static boolean isPlayersTeam()
   {
     return true;
