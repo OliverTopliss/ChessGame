@@ -61,7 +61,7 @@ public class Board
 
 
   //accessor method for the board
-  public Piece[][] getBoard()
+  public static Piece[][] getBoard()
   {
     return board;
   }// getBoard
