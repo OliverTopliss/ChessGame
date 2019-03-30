@@ -17,7 +17,7 @@ public class Board
 
   }// Board Constructor
 
-  // method thast is used to intialisie the board to starting conditions
+  // method that is used to initialise the board to starting conditions
   // takes an array of pieces whichg are to be added to the board
   public void initialise()
   {
@@ -58,6 +58,13 @@ public class Board
   {
 
   }// clearPosition method
+
+
+  //accessor method for the board
+  public Piece[][] getBoard()
+  {
+    return board;
+  }// getBoard
 
   @Override
   public String toString()
