@@ -3,7 +3,7 @@ import com.olivertopliss.pieces.*;
 public class Board
 {
   //stores the 2d array of the board
-  private Piece[][] board = new Piece[8][8];
+  private static Piece[][] board = new Piece[8][8];
 
   public Board()
   {
@@ -34,10 +34,10 @@ public class Board
     board[7][0] = new Rook("Black");
     board[7][7] = new Rook("Black");
 
-    board[0][1] = new Knight("White");
-    board[0][6] = new Knight("White");
-    board[7][1] = new Knight("Black");
-    board[7][6] = new Knight("Black");
+    board[0][1] = new Knight("White", 1, 0);
+    board[0][6] = new Knight("White", 6, 0);
+    board[7][1] = new Knight("Black", 1, 7);
+    board[7][6] = new Knight("Black", 6, 7);
 
     //swap array indices for the starting x and y coordinates
     board[0][2] = new Bishop("White", 2, 0);
@@ -48,8 +48,8 @@ public class Board
     board[0][3] = new Queen("White");
     board[7][4] = new Queen("Black");
 
-    board[0][4] = new King("White");
-    board[7][3] = new King("Black");
+    board[0][4] = new King("White", 4, 0);
+    board[7][3] = new King("Black", 3, 7);
 
     System.out.println(this);
   }// initialise Method
