@@ -26,7 +26,7 @@ public class Knight extends Piece
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
-      Board.getBoard()[xDestination - 1][yDestination - 1] = this;
+      Board.getBoard()[xDestination][yDestination] = this;
     }//if
   }//move method
 
