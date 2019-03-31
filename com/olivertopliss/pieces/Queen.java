@@ -6,9 +6,9 @@ import static java.lang.Math.abs;
 public class Queen extends Piece
 {
 
-  public Queen(String team)
+  public Queen(String team, int startXCoordinate,  int startYCoordinate)
   {
-    super(team);
+    super(team, startXCoordinate, startYCoordinate);
   }//Queen Constructor
 
 
