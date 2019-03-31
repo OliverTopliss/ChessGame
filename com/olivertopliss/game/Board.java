@@ -28,26 +28,30 @@ public class Board
       board[6][pawnNumber - 1] = new Pawn("Black", pawnNumber - 1, 6);
     }// for
 
+    //swap array indices for the starting x and y coordinates
     //spawns rooks in the corners
-    board[0][0] = new Rook("White");
-    board[0][7] = new Rook("White");
-    board[7][0] = new Rook("Black");
-    board[7][7] = new Rook("Black");
+    board[0][0] = new Rook("White", 0, 0);
+    board[0][7] = new Rook("White", 7, 0);
+    board[7][0] = new Rook("Black", 0, 7);
+    board[7][7] = new Rook("Black", 7, 7);
 
+    //spawns knight into starting positions
     board[0][1] = new Knight("White", 1, 0);
     board[0][6] = new Knight("White", 6, 0);
     board[7][1] = new Knight("Black", 1, 7);
     board[7][6] = new Knight("Black", 6, 7);
 
-    //swap array indices for the starting x and y coordinates
+    //spawns bishop into starting positions
     board[0][2] = new Bishop("White", 2, 0);
     board[0][5] = new Bishop("White", 5, 0);
     board[7][2] = new Bishop("Black", 2, 7);
     board[7][5] = new Bishop("Black", 5, 7);
 
-    board[0][3] = new Queen("White");
-    board[7][4] = new Queen("Black");
+    //spawns queen into starting positions
+    board[0][3] = new Queen("White", 3, 0);
+    board[7][4] = new Queen("Black", 4, 7);
 
+    //spawns king into starting positions
     board[0][4] = new King("White", 4, 0);
     board[7][3] = new King("Black", 3, 7);
 
