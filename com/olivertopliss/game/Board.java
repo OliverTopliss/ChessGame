@@ -23,9 +23,9 @@ public class Board
   {
     for (int pawnNumber = 1; pawnNumber <= 8; pawnNumber++)
     {
-      // populates the board array with pawns in their initial postitions
-      board[1][pawnNumber - 1] = new Pawn("White");
-      board[6][pawnNumber - 1] = new Pawn("Black");
+      // populates the board array with pawns in their initial positions
+      board[1][pawnNumber - 1] = new Pawn("White", pawnNumber - 1, 1);
+      board[6][pawnNumber - 1] = new Pawn("Black", pawnNumber - 1, 6);
     }// for
 
     //spawns rooks in the corners
