@@ -1,4 +1,5 @@
 package com.olivertopliss.game;
+
 public class ChessGame
 {
   public static void main(String[] args)
@@ -6,5 +7,6 @@ public class ChessGame
     //Creates a new game, intialises it and prints the board
     Game chessGame = new Game();
     chessGame.initialise();
+    chessGame.start();
   }// main
 }// Chess Game class
