@@ -1,11 +1,12 @@
 package com.olivertopliss.game;
 
 import java.util.Scanner;
+import com.olivertopliss.pieces.Piece;
 
 public class Game
 {
-  private Board board;
-  // intentional empty constructor
+  private static Board board;
+  // constructor
   public Game()
   {
     board = new Board();
@@ -37,13 +38,15 @@ public class Game
 
       //gets the comma separated input coordinates and stores them in an array
       pieceDestinationCoordinates = (coordinateInput.nextLine().split(","));
-      //assigns the x and y coordinates
+      //assigns the destination x and y coordinates
       destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
       destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
-      //moves a piece to the x and y coordinates
-      Board.getBoard()[pieceToMoveXCoordinate][pieceToMoveYCoordinate].move(destinationXCoordinate, destinationYCoordinate);
+      //moves a piece to the destination x and y coordinates
+      board.getBoard()[pieceToMoveYCoordinate][pieceToMoveXCoordinate].move(destinationXCoordinate, destinationYCoordinate);
+      System.out.println(board.getBoard()[pieceToMoveYCoordinate][pieceToMoveXCoordinate]);
+      System.out.println(board);
       System.out.println();
-    }
+    }// while
   }// start method
 
   // access for method for board
@@ -51,4 +54,10 @@ public class Game
   {
     return board;
   }// getBoard method
+
+  //mutator method for the board that calls the method for the board associated with THIS
+  public static void setBoard(int xCoordinateToSet, int yCoordinateToSet, Piece pieceToSet)
+  {
+    board.setBoard(xCoordinateToSet, yCoordinateToSet, pieceToSet);
+  }//setBoard
 }// Game class
