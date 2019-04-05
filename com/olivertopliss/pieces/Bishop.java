@@ -17,7 +17,7 @@ public class Bishop extends Piece
     if(abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))
     {
       //clears the bishops current position
-      Game.setBoard(getCurrentXCoordinate(),getCurrentXCoordinate(), null);
+      Game.setBoard(getCurrentXCoordinate(),getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);

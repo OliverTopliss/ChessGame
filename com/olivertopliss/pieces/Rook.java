@@ -21,7 +21,7 @@ public class Rook extends Piece
        || (abs(getCurrentXCoordinate() - xDestination) > 0 && abs(getCurrentYCoordinate() - yDestination) == 0))
     {
       //clears the rook current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
+      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the rook coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);

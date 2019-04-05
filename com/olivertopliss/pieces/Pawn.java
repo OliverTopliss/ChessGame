@@ -18,7 +18,7 @@ public class Pawn extends Piece
     if((abs(getCurrentXCoordinate() - xDestination) == 0) && (abs(getCurrentYCoordinate() - yDestination) == 1))
     {
       //clears the pawn's current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
+      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);

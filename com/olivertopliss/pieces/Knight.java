@@ -22,7 +22,7 @@ public class Knight extends Piece
         || (abs(getCurrentXCoordinate() - xDestination) == 2 && abs(getCurrentYCoordinate() - yDestination) == 1))
     {
       //clears the bishops current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
+      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);

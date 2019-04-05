@@ -22,7 +22,7 @@ public class Queen extends Piece
        || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination)))
     {
       //clears the queen current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
+      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the queen coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
