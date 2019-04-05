@@ -1,6 +1,7 @@
 package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
+import com.olivertopliss.game.Game;
 import static java.lang.Math.abs;
 
 public class King extends Piece
@@ -18,12 +19,12 @@ public class King extends Piece
     if((abs(getCurrentXCoordinate() - xDestination) == 1 || (abs(getCurrentYCoordinate() - yDestination) == 1)))
     {
       //clears the bishops current position
-      Board.getBoard()[getCurrentXCoordinate() - 1][getCurrentXCoordinate() - 1] = null;
+      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
-      Board.getBoard()[xDestination - 1][yDestination - 1] = this;
+      Game.setBoard(xDestination, yDestination, this);
     }// if
 
   }//move method

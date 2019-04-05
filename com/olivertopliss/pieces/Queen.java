@@ -1,6 +1,7 @@
 package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
+import com.olivertopliss.game.Game;
 import static java.lang.Math.abs;
 
 public class Queen extends Piece
@@ -21,12 +22,12 @@ public class Queen extends Piece
        || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination)))
     {
       //clears the queen current position
-      Board.getBoard()[getCurrentXCoordinate() - 1][getCurrentXCoordinate() - 1] = null;
+      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
       //updates the queen coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the queen to the new  location
-      Board.getBoard()[xDestination - 1][yDestination - 1] = this;
+      Game.setBoard(xDestination, yDestination, this);
     }//if
   }//move method
 

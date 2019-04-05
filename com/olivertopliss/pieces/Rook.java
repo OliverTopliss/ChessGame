@@ -2,6 +2,8 @@ package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
 import static java.lang.Math.abs;
+import com.olivertopliss.game.ChessGame;
+import com.olivertopliss.game.Game;
 
 public class Rook extends Piece
 {
@@ -19,12 +21,12 @@ public class Rook extends Piece
        || (abs(getCurrentXCoordinate() - xDestination) > 0 && abs(getCurrentYCoordinate() - yDestination) == 0))
     {
       //clears the rook current position
-      Board.getBoard()[getCurrentXCoordinate() - 1][getCurrentXCoordinate() - 1] = null;
+      Game.setBoard(getCurrentXCoordinate(), getCurrentXCoordinate(), null);
       //updates the rook coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the rook to the new  location
-      Board.getBoard()[xDestination - 1][yDestination - 1] = this;
+      Game.setBoard(xDestination, yDestination, this);
     }//if
   }//move method
 
