@@ -1,9 +1,10 @@
 package com.olivertopliss.game;
 import com.olivertopliss.pieces.*;
+import com.olivertopliss.game.Game;
 public class Board
 {
   //stores the 2d array of the board
-  private static Piece[][] board = new Piece[8][8];
+  private Piece[][] board = new Piece[8][8];
 
   public Board()
   {
@@ -65,19 +66,29 @@ public class Board
 
 
   //accessor method for the board
-  public static Piece[][] getBoard()
+  public Piece[][] getBoard()
   {
     return board;
   }// getBoard
 
+  //Mutator method for the board that will make the modification to the board
+  public void setBoard(int xCoordinateToSet, int yCoordinateToSet, Piece pieceToSet)
+  {
+    board[yCoordinateToSet][xCoordinateToSet] = pieceToSet;
+  }//setBoard
+
   @Override
   public String toString()
   {
-    String boardAsString = "";
+    String boardAsString = " 01234567\n";
     for (int row = 1; row <= 8; row++)
     {
+      
+      boardAsString += row - 1;
       for (int column = 1; column <= 8; column++)
       {
+        //numbers the columns
+        
         if (board[row - 1][column - 1] == null)
         {
           boardAsString += (".");
