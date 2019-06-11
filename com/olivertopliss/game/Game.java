@@ -1,17 +1,49 @@
 package com.olivertopliss.game;
-
+import java.awt.Container;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import java.util.Scanner;
 import com.olivertopliss.pieces.Piece;
 
-public class Game
+public class Game extends JFrame
 {
   private static Board board;
   // constructor
   public Game()
   {
     board = new Board();
-  }// Game constructor
+    setTitle("Chess");
 
+    //creates a gui for the coordinates of pieces/destination to be input
+    JTextArea inputStartCoords = new JTextArea(1,20);
+    JTextArea inputDestinationCoords = new JTextArea(1,20);
+    Container contents = getContentPane();
+    contents.setLayout(new BorderLayout());
+
+    //groups different components together in different panels.
+    JPanel inputsPanel = new JPanel();
+    JPanel choosePieceInput = new JPanel();
+    JPanel chooseDestinationInput = new JPanel();
+
+    inputsPanel.setLayout(new FlowLayout());
+    choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
+    chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
+    inputsPanel.add(choosePieceInput);
+    inputsPanel.add(chooseDestinationInput);
+
+    choosePieceInput.add(new JLabel("Please input the x,y coordinates of the piece to move"));
+    choosePieceInput.add(inputStartCoords);
+    chooseDestinationInput.add(new JLabel("Please input the x,y coordinates of the destination"));
+    chooseDestinationInput.add(inputDestinationCoords);
+    contents.add(inputsPanel, BorderLayout.NORTH);
+
+    pack();
+  }// Game constructor
   // method that initialises the game
   public void initialise()
   {

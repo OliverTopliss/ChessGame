@@ -6,6 +6,7 @@ public class ChessGame
   {
     //Creates a new game, intialises it and prints the board
     Game chessGame = new Game();
+    chessGame.setVisible(true);
     chessGame.initialise();
     chessGame.start();
   }// main
