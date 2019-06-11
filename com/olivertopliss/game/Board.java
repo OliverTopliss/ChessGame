@@ -66,9 +66,9 @@ public class Board
 
 
   //accessor method for the board
-  public Piece[][] getBoard()
+  public Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
-    return board;
+    return board[yCoordinateToGet][xCoordinateToGet];
   }// getBoard
 
   //Mutator method for the board that will make the modification to the board

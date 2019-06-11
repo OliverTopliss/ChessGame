@@ -11,6 +11,12 @@ public abstract class Piece
     currentYCoordinate = startYCoordinate;
   }//Piece Constructor
 
+  //accessor method for TEAM
+  public String getTeam()
+  {
+    return TEAM;
+  }//getTeam
+
   // accessor method for the currentXCoordinate
   public int getCurrentXCoordinate()
   {
@@ -34,10 +40,11 @@ public abstract class Piece
   {
     currentYCoordinate = newYCoordinate;
   }// setCurrentYCoordinate
-
-  public static boolean isPlayersTeam()
+  
+  //method that checks whether 2 pieces are on the same team or not
+  public boolean isPlayersTeam(Piece otherPiece)
   {
-    return true;
+    return TEAM == otherPiece.getTeam();
   }//isPlayersTeam Method
 
   public abstract void move(int xDestination, int yDestination);

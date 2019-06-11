@@ -29,6 +29,8 @@ public class Queen extends Piece
       //moves the queen to the new  location
       Game.setBoard(xDestination, yDestination, this);
     }//if
+    else
+      System.out.println("That move was invalid. Please try again.");
   }//move method
 
   @Override

@@ -31,28 +31,31 @@ public class Game
     while (!gameOver)
     {
       //gets the comma separated input coordinates and stores them in an array
+      System.out.println("Please input the x,y coordinates of the piece to move:");
       pieceToMoveCoordinates = (coordinateInput.nextLine().split(","));
-      //assigns the x and y coordinates
+      //assigns the x and y coordinates (x,y)
       pieceToMoveXCoordinate = Integer.parseInt(pieceToMoveCoordinates[0]);
       pieceToMoveYCoordinate = Integer.parseInt(pieceToMoveCoordinates[1]);
 
+      System.out.println("Please input the x,y coordinates of the destination:");
       //gets the comma separated input coordinates and stores them in an array
       pieceDestinationCoordinates = (coordinateInput.nextLine().split(","));
       //assigns the destination x and y coordinates
       destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
       destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
+
+      System.out.println(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate));
       //moves a piece to the destination x and y coordinates
-      board.getBoard()[pieceToMoveYCoordinate][pieceToMoveXCoordinate].move(destinationXCoordinate, destinationYCoordinate);
-      System.out.println(board.getBoard()[pieceToMoveYCoordinate][pieceToMoveXCoordinate]);
+      board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
       System.out.println(board);
       System.out.println();
     }// while
   }// start method
 
   // access for method for board
-  public Board getBoard()
+  public Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
-    return board;
+    return board.getBoard(xCoordinateToGet, yCoordinateToGet);
   }// getBoard method
 
   //mutator method for the board that calls the method for the board associated with THIS

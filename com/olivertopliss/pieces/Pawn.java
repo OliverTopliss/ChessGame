@@ -25,6 +25,8 @@ public class Pawn extends Piece
       //moves the pawn to the new  location
       Game.setBoard(xDestination, yDestination, this);
     }// if
+    else
+      System.out.println("That move was invalid. Please try again.");
 
   }//move method
 

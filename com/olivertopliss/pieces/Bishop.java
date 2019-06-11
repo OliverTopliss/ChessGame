@@ -14,7 +14,7 @@ public class Bishop extends Piece
   public void move(int xDestination, int yDestination)
   {
     //checks if the requested move is legal
-    if(abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))
+    if((abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination)))
     {
       //clears the bishops current position
       Game.setBoard(getCurrentXCoordinate(),getCurrentYCoordinate(), null);
@@ -24,6 +24,8 @@ public class Bishop extends Piece
       //moves the bishop to the new location
       Game.setBoard(xDestination, yDestination, this);
     }// if
+    else
+      System.out.println("That move was invalid. Please try again.");
   }//move method
 
   @Override
