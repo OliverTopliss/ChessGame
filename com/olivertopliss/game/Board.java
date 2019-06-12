@@ -56,7 +56,6 @@ public class Board
     board[0][4] = new King("White", 4, 0);
     board[7][3] = new King("Black", 3, 7);
 
-    System.out.println(this);
   }// initialise Method
 
   private void clearPosition(String xCoordinate, int yCoordinate)
@@ -80,10 +79,11 @@ public class Board
   @Override
   public String toString()
   {
-    String boardAsString = " 01234567\n";
+    //builds a string with html tags for formatting purposes
+    String boardAsString = "<html><p><font color = 'black'> &nbsp 01234567 </font></p>";
     for (int row = 1; row <= 8; row++)
     {
-      
+      boardAsString += "<p>";
       boardAsString += row - 1;
       for (int column = 1; column <= 8; column++)
       {
@@ -91,14 +91,14 @@ public class Board
         
         if (board[row - 1][column - 1] == null)
         {
-          boardAsString += (".");
+          boardAsString += "<font color = 'black'> . </font>";
         }// if
         else
         {
-          boardAsString += (board[row - 1][column - 1]);
+          boardAsString += "<font color = 'red'>" + (board[row - 1][column - 1]) + "</font>";
         }// else
       }// for
-      boardAsString += "\n";
+      boardAsString += "</p>";
     }// for
     return boardAsString;
   }// toString

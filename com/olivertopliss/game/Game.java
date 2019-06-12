@@ -2,38 +2,44 @@ package com.olivertopliss.game;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
 import javax.swing.JTextField;
 import java.util.Scanner;
 import com.olivertopliss.pieces.Piece;
 
 public class Game extends JFrame
 {
+
+  //instance varibales used to refernce graphical components
   private static Board board;
+
+  //creates a gui for the coordinates of pieces/destination to be input
+  private JTextField inputStartCoords = new JTextField("Input piece to move here");
+  private JTextField inputDestinationCoords = new JTextField("Input destination here");
+  public Container contents = getContentPane();
+
+
+  //groups different components together in different panels.
+  private JPanel inputsPanel = new JPanel();
+  private JPanel choosePieceInput = new JPanel();
+  private JPanel chooseDestinationInput = new JPanel();
+  private JPanel emptyPanelWest = new JPanel();
+  private JPanel emptyPanelEast = new JPanel();
+  private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
   // constructor
   public Game()
   {
     board = new Board();
     setTitle("Chess");
 
-    //creates a gui for the coordinates of pieces/destination to be input
-    JTextField inputStartCoords = new JTextField("Input piece to move here");
-    JTextField inputDestinationCoords = new JTextField("Input destination here");
-    Container contents = getContentPane();
+    //creates a border layout and an editor pane for the board to occupy
     contents.setLayout(new BorderLayout());
-
-    //groups different components together in different panels.
-    JPanel inputsPanel = new JPanel();
-    JPanel choosePieceInput = new JPanel();
-    JPanel chooseDestinationInput = new JPanel();
-    JPanel emptyPanelWest = new JPanel();
-    JPanel emptyPanelEast = new JPanel();
-    JTextArea boardArea = new JTextArea(9, 9);
-    boardArea.setText(board.toString());
+    boardEditorPane.setEditable(false);
 
     inputsPanel.setLayout(new FlowLayout());
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
@@ -45,17 +51,23 @@ public class Game extends JFrame
     choosePieceInput.add(inputStartCoords);
     chooseDestinationInput.add(new JLabel("Please input the x,y coordinates of the destination"));
     chooseDestinationInput.add(inputDestinationCoords);
+
+
     contents.add(inputsPanel, BorderLayout.NORTH);
-    contents.add(boardArea, BorderLayout.CENTER);
+    contents.add(boardEditorPane, BorderLayout.CENTER);
     contents.add(emptyPanelWest, BorderLayout.WEST);
     contents.add(emptyPanelEast, BorderLayout.EAST);
 
+    //makes the editor have even spacing
+    boardEditorPane.setFont(new Font("MONOSPACED", 0, 50));
     pack();
   }// Game constructor
   // method that initialises the game
   public void initialise()
   {
     board.initialise();
+    //outputs the board and formats it occording to the html in the toString() being called
+    boardEditorPane.setText(board.toString());
   }// initialise method
 
   //method used to simulate the game flow

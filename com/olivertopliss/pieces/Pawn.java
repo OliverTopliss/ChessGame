@@ -6,7 +6,6 @@ import static java.lang.Math.abs;
 
 public class Pawn extends Piece
 {
-
   public Pawn(String team, int startXCoordinate, int startYCoordinate)
   {
     super(team, startXCoordinate, startYCoordinate);
