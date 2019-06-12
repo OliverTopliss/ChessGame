@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import java.util.Scanner;
 import com.olivertopliss.pieces.Piece;
 
@@ -20,8 +21,8 @@ public class Game extends JFrame
     setTitle("Chess");
 
     //creates a gui for the coordinates of pieces/destination to be input
-    JTextArea inputStartCoords = new JTextArea(1,20);
-    JTextArea inputDestinationCoords = new JTextArea(1,20);
+    JTextField inputStartCoords = new JTextField("Input piece to move here");
+    JTextField inputDestinationCoords = new JTextField("Input destination here");
     Container contents = getContentPane();
     contents.setLayout(new BorderLayout());
 
@@ -29,6 +30,10 @@ public class Game extends JFrame
     JPanel inputsPanel = new JPanel();
     JPanel choosePieceInput = new JPanel();
     JPanel chooseDestinationInput = new JPanel();
+    JPanel emptyPanelWest = new JPanel();
+    JPanel emptyPanelEast = new JPanel();
+    JTextArea boardArea = new JTextArea(9, 9);
+    boardArea.setText(board.toString());
 
     inputsPanel.setLayout(new FlowLayout());
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
@@ -41,6 +46,9 @@ public class Game extends JFrame
     chooseDestinationInput.add(new JLabel("Please input the x,y coordinates of the destination"));
     chooseDestinationInput.add(inputDestinationCoords);
     contents.add(inputsPanel, BorderLayout.NORTH);
+    contents.add(boardArea, BorderLayout.CENTER);
+    contents.add(emptyPanelWest, BorderLayout.WEST);
+    contents.add(emptyPanelEast, BorderLayout.EAST);
 
     pack();
   }// Game constructor
