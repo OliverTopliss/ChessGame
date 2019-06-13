@@ -58,7 +58,7 @@ public class Game extends JFrame
     //gridlayout that models the board
     boardPanel.setLayout(new GridLayout(8,8, 1, 1));
     boardPanel.setBackground(Color.WHITE);
-    
+
     contents.add(inputsPanel, BorderLayout.NORTH);
     contents.add(boardPanel, BorderLayout.CENTER);
     contents.add(emptyPanelWest, BorderLayout.WEST);
@@ -72,40 +72,7 @@ public class Game extends JFrame
   {
     board.initialise();
 
-    //loops throughtbhe board and outputs each piece as a label and adds it to the baord
-    for(int column = 1; column <= 8; column++)
-    {
-      for(int row = 1; row <= 8; row++)
-      {
-        //black piece
-        if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "Black")
-        {
-          //creates a jlabel of the relevnt piece and aligns it in the center of the label
-          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
-          pieceLabel.setForeground(Color.BLACK);
-          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
-          boardPanel.add(pieceLabel);
-        }
-        //white piece
-        else if (board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "White")
-        {
-          //creates a jlabel of the relevnt piece and aligns it in the center of the label
-          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
-          pieceLabel.setForeground(Color.GRAY);
-          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
-          boardPanel.add(pieceLabel);
-        }//elseif
-        //unoccupied space
-        else
-        {
-          //creates a jlabel of the relevnt piece and aligns it in the center of the label
-          JLabel pieceLabel = new JLabel(".", JLabel.CENTER);
-          pieceLabel.setForeground(Color.RED);
-          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
-          boardPanel.add(pieceLabel);
-        }//else
-      }//for
-    }//for
+    updateBoardGUI();
   }// initialise method
 
   //method used to simulate the game flow
@@ -141,6 +108,46 @@ public class Game extends JFrame
       System.out.println();
     }// while
   }// start method
+
+  //method which upadates the gridlayout with the contents of the board
+  public void updateBoardGUI()
+  {
+    //loops throughtbhe board and outputs each piece as a label and adds it to the baord
+    for(int column = 1; column <= 8; column++)
+    {
+      for(int row = 1; row <= 8; row++)
+      {
+        //black piece
+        if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "Black")
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
+          pieceLabel.setForeground(Color.BLACK);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }
+        //white piece
+        else if (board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "White")
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
+          pieceLabel.setForeground(Color.GRAY);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }//elseif
+        //unoccupied space
+        else
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(".", JLabel.CENTER);
+          pieceLabel.setForeground(Color.RED);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }//else
+      }//for
+    }//for
+    pack();
+  }// updateBoardGUI method
 
   // access for method for board
   public Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
