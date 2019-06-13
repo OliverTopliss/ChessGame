@@ -1,5 +1,6 @@
 package com.olivertopliss.game;
 import java.awt.Container;
+import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -30,7 +31,9 @@ public class Game extends JFrame
   private JPanel chooseDestinationInput = new JPanel();
   private JPanel emptyPanelWest = new JPanel();
   private JPanel emptyPanelEast = new JPanel();
+  private JPanel boardPanel = new JPanel();
   private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
+
   // constructor
   public Game()
   {
@@ -39,35 +42,70 @@ public class Game extends JFrame
 
     //creates a border layout and an editor pane for the board to occupy
     contents.setLayout(new BorderLayout());
-    boardEditorPane.setEditable(false);
 
+    //panel that holds input fields
     inputsPanel.setLayout(new FlowLayout());
+    //grid of labels and input fields
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
     chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
     inputsPanel.add(choosePieceInput);
     inputsPanel.add(chooseDestinationInput);
-
     choosePieceInput.add(new JLabel("Please input the x,y coordinates of the piece to move"));
     choosePieceInput.add(inputStartCoords);
     chooseDestinationInput.add(new JLabel("Please input the x,y coordinates of the destination"));
     chooseDestinationInput.add(inputDestinationCoords);
 
-
+    //gridlayout that models the board
+    boardPanel.setLayout(new GridLayout(8,8, 1, 1));
+    boardPanel.setBackground(Color.WHITE);
+    
     contents.add(inputsPanel, BorderLayout.NORTH);
-    contents.add(boardEditorPane, BorderLayout.CENTER);
+    contents.add(boardPanel, BorderLayout.CENTER);
     contents.add(emptyPanelWest, BorderLayout.WEST);
     contents.add(emptyPanelEast, BorderLayout.EAST);
-
-    //makes the editor have even spacing
-    boardEditorPane.setFont(new Font("MONOSPACED", 0, 50));
     pack();
   }// Game constructor
-  // method that initialises the game
+
+
+  // method that initialises the game and gui
   public void initialise()
   {
     board.initialise();
-    //outputs the board and formats it occording to the html in the toString() being called
-    boardEditorPane.setText(board.toString());
+
+    //loops throughtbhe board and outputs each piece as a label and adds it to the baord
+    for(int column = 1; column <= 8; column++)
+    {
+      for(int row = 1; row <= 8; row++)
+      {
+        //black piece
+        if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "Black")
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
+          pieceLabel.setForeground(Color.BLACK);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }
+        //white piece
+        else if (board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "White")
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
+          pieceLabel.setForeground(Color.GRAY);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }//elseif
+        //unoccupied space
+        else
+        {
+          //creates a jlabel of the relevnt piece and aligns it in the center of the label
+          JLabel pieceLabel = new JLabel(".", JLabel.CENTER);
+          pieceLabel.setForeground(Color.RED);
+          pieceLabel.setFont(new Font("SERIF", Font.BOLD, 50));
+          boardPanel.add(pieceLabel);
+        }//else
+      }//for
+    }//for
   }// initialise method
 
   //method used to simulate the game flow
