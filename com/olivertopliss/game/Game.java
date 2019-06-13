@@ -32,6 +32,7 @@ public class Game extends JFrame
   private JPanel emptyPanelEast = new JPanel();
   private JPanel boardPanel = new JPanel();
   private JPanel whiteTakenPiecesPanel = new JPanel();
+  private JPanel blackTakenPiecesPanel = new JPanel();
   private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
 
   // constructor
@@ -51,6 +52,7 @@ public class Game extends JFrame
     chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
     //grid that stores the taken white pieces in an X by 2 grid
     whiteTakenPiecesPanel.setLayout(new GridLayout(0,2, 10, 20));
+    blackTakenPiecesPanel.setLayout(new GridLayout(0,2, 10, 20));
 
     inputsPanel.add(choosePieceInput);
     inputsPanel.add(chooseDestinationInput);
@@ -62,13 +64,13 @@ public class Game extends JFrame
     chooseDestinationInput.add(inputDestinationCoords);
 
     //gridlayout that models the board
-    boardPanel.setLayout(new GridLayout(8,8, 1, 1));
+    boardPanel.setLayout(new GridLayout(8, 8, 1, 1));
     boardPanel.setBackground(Color.WHITE);
 
     contents.add(inputsPanel, BorderLayout.NORTH);
     contents.add(boardPanel, BorderLayout.CENTER);
     contents.add(whiteTakenPiecesPanel, BorderLayout.WEST);
-    contents.add(emptyPanelEast, BorderLayout.EAST);
+    contents.add(blackTakenPiecesPanel, BorderLayout.EAST);
     pack();
   }// Game constructor
 
@@ -110,14 +112,27 @@ public class Game extends JFrame
       System.out.println(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate));
 
       //moves a piece to the destination x and y coordinates
+      //if the destination isn't occupied or is a valid taking move then the move can go ahead
       if(board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
          || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
                                                                                                         destinationYCoordinate)))
       {
-        if(board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+        //if the move can go ahead and the destination is black piece
+        // then the taken piece is added to the taken black pieces
+        if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+          && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
         {
           whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
         }//if
+
+        //if the move can go ahead and the destination is a white piece
+        // then the taken piece is added to the taken white pieces
+        else if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
+        {
+          blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+        }//if
+
         board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
         updateBoardGUI();
       }//if
