@@ -1,4 +1,5 @@
 package com.olivertopliss.pieces;
+import com.olivertopliss.game.Game;
 public abstract class Piece
 {
   private final String TEAM;
@@ -46,6 +47,19 @@ public abstract class Piece
   {
     return TEAM == otherPiece.getTeam();
   }//isPlayersTeam Method
+
+  //method which determines whether the piece that is being moved will take a piece of another colour
+  public boolean willTakePiece(Piece potentialPieceBeingTaken)
+  {
+    if(potentialPieceBeingTaken == null)
+    {
+      return true;
+    }//if
+    else
+    {
+      return (!isPlayersTeam(potentialPieceBeingTaken));
+    }//else
+  }//wileTakePIece method
 
   public abstract void move(int xDestination, int yDestination);
 

@@ -29,9 +29,9 @@ public class Game extends JFrame
   private JPanel inputsPanel = new JPanel();
   private JPanel choosePieceInput = new JPanel();
   private JPanel chooseDestinationInput = new JPanel();
-  private JPanel emptyPanelWest = new JPanel();
   private JPanel emptyPanelEast = new JPanel();
   private JPanel boardPanel = new JPanel();
+  private JPanel whiteTakenPiecesPanel = new JPanel();
   private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
 
   // constructor
@@ -45,13 +45,19 @@ public class Game extends JFrame
 
     //panel that holds input fields
     inputsPanel.setLayout(new FlowLayout());
+
     //grid of labels and input fields
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
     chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
+    //grid that stores the taken white pieces in an X by 2 grid
+    whiteTakenPiecesPanel.setLayout(new GridLayout(0,2, 10, 20));
+
     inputsPanel.add(choosePieceInput);
     inputsPanel.add(chooseDestinationInput);
+
     choosePieceInput.add(new JLabel("Please input the x,y coordinates of the piece to move"));
     choosePieceInput.add(inputStartCoords);
+
     chooseDestinationInput.add(new JLabel("Please input the x,y coordinates of the destination"));
     chooseDestinationInput.add(inputDestinationCoords);
 
@@ -61,7 +67,7 @@ public class Game extends JFrame
 
     contents.add(inputsPanel, BorderLayout.NORTH);
     contents.add(boardPanel, BorderLayout.CENTER);
-    contents.add(emptyPanelWest, BorderLayout.WEST);
+    contents.add(whiteTakenPiecesPanel, BorderLayout.WEST);
     contents.add(emptyPanelEast, BorderLayout.EAST);
     pack();
   }// Game constructor
@@ -102,10 +108,19 @@ public class Game extends JFrame
       destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
 
       System.out.println(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate));
+
       //moves a piece to the destination x and y coordinates
-      board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
-      updateBoardGUI();
-      System.out.println();
+      if(board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
+         || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
+                                                                                                        destinationYCoordinate)))
+      {
+        if(board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+        {
+          whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+        }//if
+        board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
+        updateBoardGUI();
+      }//if
     }// while
   }// start method
 
