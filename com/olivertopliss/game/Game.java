@@ -104,7 +104,7 @@ public class Game extends JFrame
       System.out.println(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate));
       //moves a piece to the destination x and y coordinates
       board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
-      System.out.println(board);
+      updateBoardGUI();
       System.out.println();
     }// while
   }// start method
@@ -112,11 +112,13 @@ public class Game extends JFrame
   //method which upadates the gridlayout with the contents of the board
   public void updateBoardGUI()
   {
+    boardPanel.removeAll();
     //loops throughtbhe board and outputs each piece as a label and adds it to the baord
     for(int column = 1; column <= 8; column++)
     {
       for(int row = 1; row <= 8; row++)
       {
+
         //black piece
         if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "Black")
         {
