@@ -33,6 +33,7 @@ public class Game extends JFrame
   private JPanel boardPanel = new JPanel();
   private JPanel whiteTakenPiecesPanel = new JPanel();
   private JPanel blackTakenPiecesPanel = new JPanel();
+  private JPanel keyPanel = new JPanel();
   private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
 
   // constructor
@@ -51,8 +52,9 @@ public class Game extends JFrame
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
     chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
     //grid that stores the taken white pieces in an X by 2 grid
-    whiteTakenPiecesPanel.setLayout(new GridLayout(0,2, 10, 20));
-    blackTakenPiecesPanel.setLayout(new GridLayout(0,2, 10, 20));
+    whiteTakenPiecesPanel.setLayout(new GridLayout(0, 2, 10, 20));
+    blackTakenPiecesPanel.setLayout(new GridLayout(0, 2, 10, 20));
+    keyPanel.setLayout(new GridLayout(0, 6, 10, 20));
 
     inputsPanel.add(choosePieceInput);
     inputsPanel.add(chooseDestinationInput);
@@ -71,6 +73,39 @@ public class Game extends JFrame
     contents.add(boardPanel, BorderLayout.CENTER);
     contents.add(whiteTakenPiecesPanel, BorderLayout.WEST);
     contents.add(blackTakenPiecesPanel, BorderLayout.EAST);
+    contents.add(keyPanel, BorderLayout.SOUTH);
+
+    //creates the labels for the key
+    JLabel pawnLabel = new JLabel();
+    pawnLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    pawnLabel.setText("Pawn - %");
+    keyPanel.add(pawnLabel);
+
+    JLabel rookLabel = new JLabel();
+    rookLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    rookLabel.setText("Rook - #");
+    keyPanel.add(rookLabel);
+
+    JLabel knightLabel = new JLabel();
+    knightLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    knightLabel.setText("Knight - @");
+    keyPanel.add(knightLabel);
+
+    JLabel bishopLabel = new JLabel();
+    bishopLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    bishopLabel.setText("Bishop - o");
+    keyPanel.add(bishopLabel);
+
+    JLabel queenLabel = new JLabel();
+    queenLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    queenLabel.setText("Queen - *");
+    keyPanel.add(queenLabel);
+
+    JLabel kingLabel = new JLabel();
+    kingLabel.setFont(new Font("SERIF", Font.BOLD, 20));
+    kingLabel.setText("King - ?");
+    keyPanel.add(kingLabel);
+
     pack();
   }// Game constructor
 
