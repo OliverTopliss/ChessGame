@@ -7,12 +7,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JEditorPane;
 import javax.swing.JTextField;
-import java.util.Scanner;
 import com.olivertopliss.pieces.Piece;
 
 public class Game extends JFrame implements ActionListener
@@ -36,7 +35,7 @@ public class Game extends JFrame implements ActionListener
   private JPanel whiteTakenPiecesPanel = new JPanel();
   private JPanel blackTakenPiecesPanel = new JPanel();
   private JPanel keyPanel = new JPanel();
-  private JEditorPane boardEditorPane = new JEditorPane("text/html", "");
+  private JButton submitCoordsButton = new JButton("Move");
 
   // constructor
   public Game()
@@ -58,8 +57,11 @@ public class Game extends JFrame implements ActionListener
     blackTakenPiecesPanel.setLayout(new GridLayout(0, 2, 10, 20));
     keyPanel.setLayout(new GridLayout(0, 6, 10, 20));
 
+    submitCoordsButton.addActionListener(this);
+
     inputsPanel.add(choosePieceInput);
     inputsPanel.add(chooseDestinationInput);
+    inputsPanel.add(submitCoordsButton);
 
     choosePieceInput.add(new JLabel("Please input the x,y coordinates of the piece to move"));
     choosePieceInput.add(inputStartCoords);
