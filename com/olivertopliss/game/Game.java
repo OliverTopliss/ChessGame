@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import java.util.Scanner;
 import com.olivertopliss.pieces.Piece;
 
-public class Game extends JFrame
+public class Game extends JFrame implements ActionListener
 {
 
   //instance varibales used to refernce graphical components

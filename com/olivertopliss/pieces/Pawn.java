@@ -34,7 +34,7 @@ public class Pawn extends Piece
       System.out.println("That move was invalid. Please try again.");
 
   }//move method
-
+ooooooooooooop
   //method that determines if a pawn is able in the appropriate position
   //to ressurect another piece depending on the its colour
   private boolean ableToResurrect()
