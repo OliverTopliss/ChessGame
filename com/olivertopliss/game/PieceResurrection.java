@@ -1,4 +1,5 @@
 //class that will handle the logic and GUI for choosing a piece to resurrect
+package com.olivertopliss.game;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;

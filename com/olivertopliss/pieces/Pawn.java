@@ -2,6 +2,7 @@ package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
 import com.olivertopliss.game.Game;
+import com.olivertopliss.game.PieceResurrection;
 import static java.lang.Math.abs;
 
 public class Pawn extends Piece
@@ -13,6 +14,7 @@ public class Pawn extends Piece
 
   public void move(int xDestination, int yDestination)
   {
+    PieceResurrection pieceResurrectionGUI = new PieceResurrection();
     // if the motion is only vertical by 1 space then it is valid
     if((abs(getCurrentXCoordinate() - xDestination) == 0 || abs(getCurrentXCoordinate() - xDestination) == 1)
             && (abs(getCurrentYCoordinate() - yDestination) == 1))
@@ -27,7 +29,7 @@ public class Pawn extends Piece
 
       //checks whether the pawn is in a position to be able to resurrect a piece
       if(ableToResurrect())
-        System.out.println("Which piece would you like to resurrect?");
+        pieceResurrectionGUI.setVisible(true);
 
     }// if
     else
