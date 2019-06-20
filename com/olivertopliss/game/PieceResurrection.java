@@ -29,5 +29,7 @@ public class PieceResurrection extends JFrame
     contents.add(chooseBishopButton);
     contents.add(chooseQueenButton);
 
+    pack();
+
   }// PieceResurrection method
 }//PieceRessurection Class
