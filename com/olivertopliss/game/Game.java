@@ -216,6 +216,13 @@ public class Game extends JFrame implements ActionListener
     pack();
   }// updateBoardGUI method
 
+  @Override
+  public void actionPerformed(ActionEvent event)
+  {
+    String startCoords = inputStartCoords.getText();
+    String destinationCoords = inputDestinationCoords.getText();
+  }//actionPerformed
+
   // access for method for board
   public Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
