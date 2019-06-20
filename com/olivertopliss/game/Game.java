@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -118,61 +120,6 @@ public class Game extends JFrame implements ActionListener
     updateBoardGUI();
   }// initialise method
 
-  //method used to simulate the game flow
-  public void start()
-  {
-    Scanner coordinateInput = new Scanner(System.in);
-    boolean gameOver = false;
-    String[] pieceToMoveCoordinates;
-    String[] pieceDestinationCoordinates;
-    int pieceToMoveXCoordinate = 0, pieceToMoveYCoordinate = 0, destinationXCoordinate = 0, destinationYCoordinate = 0;
-
-    //loops while there isn't a winner
-    while (!gameOver)
-    {
-      //gets the comma separated input coordinates and stores them in an array
-      System.out.println("Please input the x,y coordinates of the piece to move:");
-      pieceToMoveCoordinates = (coordinateInput.nextLine().split(","));
-      //assigns the x and y coordinates (x,y)
-      pieceToMoveXCoordinate = Integer.parseInt(pieceToMoveCoordinates[0]);
-      pieceToMoveYCoordinate = Integer.parseInt(pieceToMoveCoordinates[1]);
-
-      System.out.println("Please input the x,y coordinates of the destination:");
-      //gets the comma separated input coordinates and stores them in an array
-      pieceDestinationCoordinates = (coordinateInput.nextLine().split(","));
-      //assigns the destination x and y coordinates
-      destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
-      destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
-
-      System.out.println(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate));
-
-      //moves a piece to the destination x and y coordinates
-      //if the destination isn't occupied or is a valid taking move then the move can go ahead
-      if(board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
-         || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
-                                                                                                        destinationYCoordinate)))
-      {
-        //if the move can go ahead and the destination is black piece
-        // then the taken piece is added to the taken black pieces
-        if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-          && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
-        {
-          whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
-        }//if
-
-        //if the move can go ahead and the destination is a white piece
-        // then the taken piece is added to the taken white pieces
-        else if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
-        {
-          blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
-        }//if
-
-        board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
-        updateBoardGUI();
-      }//if
-    }// while
-  }// start method
 
   //method which upadates the gridlayout with the contents of the board
   public void updateBoardGUI()
@@ -219,8 +166,53 @@ public class Game extends JFrame implements ActionListener
   @Override
   public void actionPerformed(ActionEvent event)
   {
-    String startCoords = inputStartCoords.getText();
+
+    int pieceToMoveXCoordinate = 0, pieceToMoveYCoordinate = 0, destinationXCoordinate = 0, destinationYCoordinate = 0;
+    String[] pieceToMoveCoordinates;
+    String[] pieceDestinationCoordinates;
+
+    String startCoordsString = inputStartCoords.getText();
     String destinationCoords = inputDestinationCoords.getText();
+
+    //gets the comma separated input coordinates and stores them in an array
+    pieceToMoveCoordinates = (startCoordsString.split(","));
+    //assigns the x and y coordinates (x,y)
+    pieceToMoveXCoordinate = Integer.parseInt(pieceToMoveCoordinates[0]);
+    pieceToMoveYCoordinate = Integer.parseInt(pieceToMoveCoordinates[1]);
+
+    //gets the comma separated input coordinates and stores them in an array
+    pieceDestinationCoordinates = (destinationCoords.split(","));
+    //assigns the destination x and y coordinates
+    destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
+    destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
+
+    //moves a piece to the destination x and y coordinates
+    //if the destination isn't occupied or is a valid taking move then the move can go ahead
+    if(board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
+            || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
+            destinationYCoordinate)))
+    {
+      //if the move can go ahead and the destination is black piece
+      // then the taken piece is added to the taken black pieces
+      if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+              && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
+      {
+        whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+      }//if
+
+      //if the move can go ahead and the destination is a white piece
+      // then the taken piece is added to the taken white pieces
+      else if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+              && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
+      {
+        blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+      }//if
+
+      board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
+      updateBoardGUI();
+    }//if
+
+
   }//actionPerformed
 
   // access for method for board

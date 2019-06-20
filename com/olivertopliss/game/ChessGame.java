@@ -8,6 +8,6 @@ public class ChessGame
     Game chessGame = new Game();
     chessGame.setVisible(true);
     chessGame.initialise();
-    chessGame.start();
+    //chessGame.start();
   }// main
 }// Chess Game class
