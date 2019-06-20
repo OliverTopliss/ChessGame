@@ -14,11 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.olivertopliss.pieces.Piece;
 
+
 public class Game extends JFrame implements ActionListener
 {
 
   //instance varibales used to refernce graphical components
   private static Board board;
+
 
   //creates a gui for the coordinates of pieces/destination to be input
   private JTextField inputStartCoords = new JTextField("Input piece to move here");
@@ -120,6 +122,7 @@ public class Game extends JFrame implements ActionListener
     board.initialise();
 
     updateBoardGUI();
+
   }// initialise method
 
 
@@ -168,7 +171,6 @@ public class Game extends JFrame implements ActionListener
   @Override
   public void actionPerformed(ActionEvent event)
   {
-
     int pieceToMoveXCoordinate = 0, pieceToMoveYCoordinate = 0, destinationXCoordinate = 0, destinationYCoordinate = 0;
     String[] pieceToMoveCoordinates;
     String[] pieceDestinationCoordinates;
@@ -188,32 +190,35 @@ public class Game extends JFrame implements ActionListener
     destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
     destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
 
-    //moves a piece to the destination x and y coordinates
-    //if the destination isn't occupied or is a valid taking move then the move can go ahead
-    if(board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
-            || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
-            destinationYCoordinate)))
+    if(event.getSource() == submitCoordsButton)
     {
-      //if the move can go ahead and the destination is black piece
-      // then the taken piece is added to the taken black pieces
-      if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-              && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
+      //moves a piece to the destination x and y coordinates
+      //if the destination isn't occupied or is a valid taking move then the move can go ahead
+      if (board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
+              || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
+              destinationYCoordinate)))
       {
-        whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
-      }//if
+        //if the move can go ahead and the destination is black piece
+        // then the taken piece is added to the taken black pieces
+        if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
+        {
+          whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+        }//if
 
-      //if the move can go ahead and the destination is a white piece
-      // then the taken piece is added to the taken white pieces
-      else if((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-              && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
-      {
-        blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
-      }//if
+        //if the move can go ahead and the destination is a white piece
+        // then the taken piece is added to the taken white pieces
+        else if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
+        {
+          blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+        }//if
 
-      board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
-      updateBoardGUI();
+        board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
+
+      }//if
     }//if
-
+    updateBoardGUI();
 
   }//actionPerformed
 
