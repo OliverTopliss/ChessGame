@@ -54,6 +54,7 @@ public class Game extends JFrame implements ActionListener
     //grid of labels and input fields
     choosePieceInput.setLayout(new GridLayout(2, 1, 10, 20));
     chooseDestinationInput.setLayout(new GridLayout(2, 1, 10, 20));
+
     //grid that stores the taken white pieces in an X by 2 grid
     whiteTakenPiecesPanel.setLayout(new GridLayout(0, 2, 10, 20));
     blackTakenPiecesPanel.setLayout(new GridLayout(0, 2, 10, 20));
@@ -221,12 +222,6 @@ public class Game extends JFrame implements ActionListener
     updateBoardGUI();
 
   }//actionPerformed
-
-  // access for method for board
-  public Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
-  {
-    return board.getBoard(xCoordinateToGet, yCoordinateToGet);
-  }// getBoard method
 
   //mutator method for the board that calls the method for the board associated with THIS
   public static void setBoard(int xCoordinateToSet, int yCoordinateToSet, Piece pieceToSet)
