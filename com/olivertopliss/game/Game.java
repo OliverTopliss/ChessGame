@@ -25,6 +25,7 @@ public class Game extends JFrame implements ActionListener
   //instance varibales used to refernce graphical components
   private static Board board;
   private static Game chessGame;
+  private String turn = "White";
 
 
   //creates a gui for the coordinates of pieces/destination to be input
@@ -44,6 +45,8 @@ public class Game extends JFrame implements ActionListener
   private JPanel keyPanel = new JPanel();
   private JPanel resurrectionButtonsPanel = new JPanel();
   private JPanel southernGUIPanel = new JPanel();
+
+  //buttons on the gui
   private JButton submitCoordsButton = new JButton("Move");
   private JButton chooseRookButton = new JButton("Rook");
   private JButton chooseKnightButton = new JButton("Knight");
@@ -222,65 +225,73 @@ public class Game extends JFrame implements ActionListener
     pieceToMoveXCoordinate = Integer.parseInt(pieceToMoveCoordinates[0]);
     pieceToMoveYCoordinate = Integer.parseInt(pieceToMoveCoordinates[1]);
 
-    //gets the comma separated input coordinates and stores them in an array
-    pieceDestinationCoordinates = (destinationCoords.split(","));
-    //assigns the destination x and y coordinates
-    destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
-    destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
-
-    if(event.getSource() == submitCoordsButton)
+    if(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).getTeam() == turn)
     {
-      //moves a piece to the destination x and y coordinates
-      //if the destination isn't occupied or is a valid taking move then the move can go ahead
-      if (board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
-              || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
-              destinationYCoordinate)))
-      {
-        //if the move can go ahead and the destination is black piece
-        // then the taken piece is added to the taken black pieces
-        if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
-        {
-          whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+
+      //gets the comma separated input coordinates and stores them in an array
+      pieceDestinationCoordinates = (destinationCoords.split(","));
+      //assigns the destination x and y coordinates
+      destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
+      destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
+
+      if (event.getSource() == submitCoordsButton) {
+        //moves a piece to the destination x and y coordinates
+        //if the destination isn't occupied or is a valid taking move then the move can go ahead
+        if (board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
+                || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
+                destinationYCoordinate))) {
+          //if the move can go ahead and the destination is black piece
+          // then the taken piece is added to the taken black pieces
+          if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black")) {
+            whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+          }//if
+
+          //if the move can go ahead and the destination is a white piece
+          // then the taken piece is added to the taken white pieces
+          else if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White")) {
+            blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
+          }//if
+
+          board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
+
         }//if
-
-        //if the move can go ahead and the destination is a white piece
-        // then the taken piece is added to the taken white pieces
-        else if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
-        {
-          blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
-        }//if
-
-        board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
-
       }//if
+      else if (event.getSource() == chooseRookButton) {
+        String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        resurrectionButtonsPanel.setVisible(false);
+      }//else if
+      else if (event.getSource() == chooseKnightButton) {
+        String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Knight(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        resurrectionButtonsPanel.setVisible(false);
+      }//else if
+      else if (event.getSource() == chooseBishopButton) {
+        String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Bishop(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        resurrectionButtonsPanel.setVisible(false);
+      }//else if
+      else if (event.getSource() == chooseQueenButton) {
+        String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Queen(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        resurrectionButtonsPanel.setVisible(false);
+      }//else if
+      updateBoardGUI();
+      if(turn == "White")
+      {
+        turn = "Black";
+      }//if
+      else
+      {
+        turn = "White";
+      }//else
     }//if
-    else if (event.getSource() == chooseRookButton)
+    else
     {
-      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
-      resurrectionButtonsPanel.setVisible(false);
-    }//else if
-    else if (event.getSource() == chooseKnightButton)
-    {
-      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Knight(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
-      resurrectionButtonsPanel.setVisible(false);
-    }//else if
-    else if (event.getSource() == chooseBishopButton)
-    {
-      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Bishop(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
-      resurrectionButtonsPanel.setVisible(false);
-    }//else if
-    else if (event.getSource() == chooseQueenButton)
-    {
-      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Queen(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
-      resurrectionButtonsPanel.setVisible(false);
-    }//else if
-    updateBoardGUI();
+      System.out.println("Not your turn yet!");
+    }//else
 
   }//actionPerformed
 
@@ -296,9 +307,20 @@ public class Game extends JFrame implements ActionListener
     resurrectionButtonsPanel.setVisible(isVisible);
   }//setResurrectionButtonsPanelVisible
 
+  public static Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
+  {
+    return board.getBoard(xCoordinateToGet, yCoordinateToGet);
+  }//setBoard
+
   //accessor method for getting the chessGame variable
   public static Game getChessGame()
   {
     return chessGame;
   }//getChessGame method
+
+  //accessor method for the turn
+  public String getTurn()
+  {
+    return turn;
+  }//getTurn
 }// Game class

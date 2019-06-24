@@ -15,9 +15,11 @@ public class Rook extends Piece
   @Override
   public void move(int xDestination, int yDestination)
   {
+    boolean validMove = isValidMove(xDestination, yDestination);
     //allows for vertical and horizontal motions only
-    if (abs(getCurrentXCoordinate() - xDestination) == 0 && abs(getCurrentYCoordinate() - yDestination) > 0
+    if ((abs(getCurrentXCoordinate() - xDestination) == 0 && abs(getCurrentYCoordinate() - yDestination) > 0
        || (abs(getCurrentXCoordinate() - xDestination) > 0 && abs(getCurrentYCoordinate() - yDestination) == 0))
+       && validMove)
     {
       //clears the rook current position
       Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
@@ -26,6 +28,7 @@ public class Rook extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the rook to the new  location
       Game.setBoard(xDestination, yDestination, this);
+      System.out.println("That move was valid");
     }//if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -37,4 +40,20 @@ public class Rook extends Piece
     return "#";
   }//toString method
 
+  //method which determines whether a move can go ahead
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+    for(int row = getCurrentXCoordinate(); row <= destinationXCoordinate; row++)
+    {
+      for(int column = getCurrentYCoordinate(); column <= destinationYCoordinate; column++)
+      {
+
+        if(!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+    }//for
+    return true;
+  }//isValidMove method
 }//Rook
