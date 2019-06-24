@@ -41,6 +41,7 @@ public class Rook extends Piece
   }//toString method
 
   //method which determines whether a move can go ahead
+  //checks that there are no pieces in the way of the motion
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     for(int row = getCurrentXCoordinate(); row <= destinationXCoordinate; row++)
