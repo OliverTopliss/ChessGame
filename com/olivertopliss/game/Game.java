@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.olivertopliss.pieces.Piece;
+import com.olivertopliss.pieces.Rook;
 
 
 public class Game extends JFrame implements ActionListener
@@ -20,6 +21,7 @@ public class Game extends JFrame implements ActionListener
 
   //instance varibales used to refernce graphical components
   private static Board board;
+  private static Game chessGame;
 
 
   //creates a gui for the coordinates of pieces/destination to be input
@@ -134,6 +136,14 @@ public class Game extends JFrame implements ActionListener
     pack();
   }// Game constructor
 
+  public static void main(String[] args)
+  {
+    //Creates a new game, intialises it and prints the board
+    chessGame = new Game();
+    chessGame.setVisible(true);
+    chessGame.initialise();
+    //chessGame.start();
+  }// main
 
   // method that initialises the game and gui
   public void initialise()
@@ -237,6 +247,11 @@ public class Game extends JFrame implements ActionListener
 
       }//if
     }//if
+    else if (event.getSource() == chooseRookButton)
+    {
+      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+    }
     updateBoardGUI();
 
   }//actionPerformed
@@ -246,4 +261,14 @@ public class Game extends JFrame implements ActionListener
   {
     board.setBoard(xCoordinateToSet, yCoordinateToSet, pieceToSet);
   }//setBoard
+
+  public void setResurrectionButtonsPanelVisisble(boolean isVisible)
+  {
+    resurrectionButtonsPanel.setVisible(isVisible);
+  }
+
+  public static Game getChessGame()
+  {
+    return chessGame;
+  }
 }// Game class
