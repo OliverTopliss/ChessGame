@@ -27,8 +27,11 @@ public class Pawn extends Piece
       Game.setBoard(xDestination, yDestination, this);
 
       //checks whether the pawn is in a position to be able to resurrect a piece
-      //if(ableToResurrect())
-        //NEED TO DO SOMETHING
+      if(ableToResurrect())
+      {
+        Game chessGame = Game.getChessGame();
+        chessGame.setResurrectionButtonsPanelVisisble(true);
+      }
 
     }// if
     else
