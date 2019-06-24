@@ -87,6 +87,8 @@ public class Game extends JFrame implements ActionListener
     resurrectionButtonsPanel.add(chooseKnightButton);
     resurrectionButtonsPanel.add(chooseBishopButton);
     resurrectionButtonsPanel.add(chooseQueenButton);
+    //invisible by default until a piece is able to be resurrected
+    resurrectionButtonsPanel.setVisible(false);
 
     southernGUIPanel.setLayout(new GridLayout(2, 0, 1, 1));
     southernGUIPanel.add(resurrectionButtonsPanel);
