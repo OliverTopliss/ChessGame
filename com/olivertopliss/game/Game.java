@@ -37,7 +37,13 @@ public class Game extends JFrame implements ActionListener
   private JPanel whiteTakenPiecesPanel = new JPanel();
   private JPanel blackTakenPiecesPanel = new JPanel();
   private JPanel keyPanel = new JPanel();
+  private JPanel resurrectionButtonsPanel = new JPanel();
+  private JPanel southernGUIPanel = new JPanel();
   private JButton submitCoordsButton = new JButton("Move");
+  private JButton chooseRookButton = new JButton("Rook");
+  private JButton chooseKnightButton = new JButton("Knight");
+  private JButton chooseBishopButton = new JButton("Bishop");
+  private JButton chooseQueenButton = new JButton("Queen");
 
   // constructor
   public Game()
@@ -76,11 +82,21 @@ public class Game extends JFrame implements ActionListener
     boardPanel.setLayout(new GridLayout(8, 8, 1, 1));
     boardPanel.setBackground(Color.WHITE);
 
+    resurrectionButtonsPanel.setLayout(new FlowLayout());
+    resurrectionButtonsPanel.add(chooseRookButton);
+    resurrectionButtonsPanel.add(chooseKnightButton);
+    resurrectionButtonsPanel.add(chooseBishopButton);
+    resurrectionButtonsPanel.add(chooseQueenButton);
+
+    southernGUIPanel.setLayout(new GridLayout(2, 0, 1, 1));
+    southernGUIPanel.add(resurrectionButtonsPanel);
+    southernGUIPanel.add(keyPanel);
+
     contents.add(inputsPanel, BorderLayout.NORTH);
     contents.add(boardPanel, BorderLayout.CENTER);
     contents.add(whiteTakenPiecesPanel, BorderLayout.WEST);
     contents.add(blackTakenPiecesPanel, BorderLayout.EAST);
-    contents.add(keyPanel, BorderLayout.SOUTH);
+    contents.add(southernGUIPanel, BorderLayout.SOUTH);
 
     //creates the labels for the key
     JLabel pawnLabel = new JLabel();
