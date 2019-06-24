@@ -42,19 +42,30 @@ public class Rook extends Piece
 
   //method which determines whether a move can go ahead
   //checks that there are no pieces in the way of the motion
-  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
-  {
-    for(int row = getCurrentXCoordinate(); row <= destinationXCoordinate; row++)
-    {
-      for(int column = getCurrentYCoordinate(); column <= destinationYCoordinate; column++)
-      {
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate) {
+    if (destinationXCoordinate > getCurrentXCoordinate() || destinationYCoordinate > getCurrentYCoordinate()) {
+      for (int row = getCurrentXCoordinate(); row <= destinationXCoordinate; row++) {
+        for (int column = getCurrentYCoordinate(); column <= destinationYCoordinate; column++) {
 
-        if(!(Game.getBoard(row, column) == null))
-        {
-          return false;
-        }//if
+          if (!(Game.getBoard(row, column) == null)) {
+            return false;
+          }//if
+        }//for
       }//for
-    }//for
-    return true;
+      return true;
+    } //if
+    else
+    {
+      for (int row = getCurrentXCoordinate(); row >= destinationXCoordinate; row--) {
+        for (int column = getCurrentYCoordinate(); column >= destinationYCoordinate; column--) {
+
+          if (!(Game.getBoard(row, column) == null))
+          {
+            return false;
+          }//if
+        }//for
+      }//for
+      return true;
+    }//else
   }//isValidMove method
 }//Rook
