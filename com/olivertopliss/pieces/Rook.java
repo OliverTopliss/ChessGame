@@ -2,7 +2,6 @@ package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
 import static java.lang.Math.abs;
-import com.olivertopliss.game.ChessGame;
 import com.olivertopliss.game.Game;
 
 public class Rook extends Piece

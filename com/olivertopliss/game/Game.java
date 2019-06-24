@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.olivertopliss.pieces.Piece;
 import com.olivertopliss.pieces.Rook;
+import com.olivertopliss.pieces.Knight;
+import com.olivertopliss.pieces.Bishop;
+import com.olivertopliss.pieces.Queen;
 
 
 public class Game extends JFrame implements ActionListener
@@ -83,6 +86,12 @@ public class Game extends JFrame implements ActionListener
     //gridlayout that models the board
     boardPanel.setLayout(new GridLayout(8, 8, 1, 1));
     boardPanel.setBackground(Color.WHITE);
+
+    //assigns actionlisteners to the buttons
+    chooseRookButton.addActionListener(this);
+    chooseKnightButton.addActionListener(this);
+    chooseBishopButton.addActionListener(this);
+    chooseQueenButton.addActionListener(this);
 
     resurrectionButtonsPanel.setLayout(new FlowLayout());
     resurrectionButtonsPanel.add(chooseRookButton);
@@ -251,7 +260,26 @@ public class Game extends JFrame implements ActionListener
     {
       String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
       Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
-    }
+      resurrectionButtonsPanel.setVisible(false);
+    }//else if
+    else if (event.getSource() == chooseKnightButton)
+    {
+      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Knight(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+      resurrectionButtonsPanel.setVisible(false);
+    }//else if
+    else if (event.getSource() == chooseBishopButton)
+    {
+      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Bishop(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+      resurrectionButtonsPanel.setVisible(false);
+    }//else if
+    else if (event.getSource() == chooseQueenButton)
+    {
+      String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
+      Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Queen(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+      resurrectionButtonsPanel.setVisible(false);
+    }//else if
     updateBoardGUI();
 
   }//actionPerformed
@@ -262,13 +290,15 @@ public class Game extends JFrame implements ActionListener
     board.setBoard(xCoordinateToSet, yCoordinateToSet, pieceToSet);
   }//setBoard
 
-  public void setResurrectionButtonsPanelVisisble(boolean isVisible)
+  //method that chanhes the visibility of the buttons
+  public void setResurrectionButtonsPanelVisible(boolean isVisible)
   {
     resurrectionButtonsPanel.setVisible(isVisible);
-  }
+  }//setResurrectionButtonsPanelVisible
 
+  //accessor method for getting the chessGame variable
   public static Game getChessGame()
   {
     return chessGame;
-  }
+  }//getChessGame method
 }// Game class

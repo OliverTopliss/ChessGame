@@ -30,7 +30,7 @@ public class Pawn extends Piece
       if(ableToResurrect())
       {
         Game chessGame = Game.getChessGame();
-        chessGame.setResurrectionButtonsPanelVisisble(true);
+        chessGame.setResurrectionButtonsPanelVisible(true);
       }
 
     }// if
