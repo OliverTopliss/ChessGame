@@ -45,7 +45,8 @@ public class Rook extends Piece
 
 
   //method which determines whether a move can go ahead
-  //checks that there are no pieces in the way of the motion
+  //checks that there are no pieces in the way of the motion]
+  @Override
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //checks the positive horizontal motion
@@ -59,7 +60,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative horizontal motion
@@ -74,7 +75,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the potitive vertical motion
@@ -89,7 +90,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative vertical motion
@@ -104,7 +105,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
   }//isValidMove method
 }//Rook

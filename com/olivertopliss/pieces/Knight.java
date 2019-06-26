@@ -38,4 +38,10 @@ public class Knight extends Piece
   {
     return "@";
   }//toString method//Queen Constructor
+
+  @Override
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+    return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+  }
 }//Piece

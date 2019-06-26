@@ -37,6 +37,7 @@ public class Bishop extends Piece
 
   //method which determines whether a move can go ahead
   //checks that there are no pieces in the way of the motion
+  @Override
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //checks diagonal aspect of the motion
@@ -52,7 +53,7 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -66,7 +67,7 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -80,7 +81,7 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -94,7 +95,7 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
 
