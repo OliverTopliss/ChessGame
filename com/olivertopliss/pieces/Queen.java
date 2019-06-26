@@ -16,10 +16,11 @@ public class Queen extends Piece
   @Override
   public void move(int xDestination, int yDestination)
   {
+    boolean notBlockedMove = isNotBlockedMove(xDestination, yDestination);
     // allows for movement on a diagonal (same x and y diff) or vertical (xdiff = 0) and horizontal motion (ydiff = 0)
-    if (abs(getCurrentXCoordinate() - xDestination) == 0 && abs(getCurrentYCoordinate() - yDestination) > 0
+    if ((abs(getCurrentXCoordinate() - xDestination) == 0 && abs(getCurrentYCoordinate() - yDestination) > 0
        || (abs(getCurrentXCoordinate() - xDestination) > 0 && abs(getCurrentYCoordinate() - yDestination) == 0)
-       || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination)))
+       || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))) && notBlockedMove)
     {
       //clears the queen current position
       Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
@@ -38,4 +39,131 @@ public class Queen extends Piece
   {
     return "*";
   }//toString method
+
+
+  //method which determines whether a move can go ahead
+  //checks that there are no pieces in the way of the motion
+  public boolean isNotBlockedMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+
+    //checks diagonal aspect of the motion
+    //both x and y are increasing \.
+    if (destinationXCoordinate > getCurrentXCoordinate() && destinationYCoordinate > getCurrentYCoordinate())
+    {
+      //row and column are the current position + 1 so that the starting piece isn't compared to itself
+      int column = getCurrentYCoordinate() + 1;
+      for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column++)
+      {
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//if
+
+    //both x and y are decreasing ^\
+    else if(destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate < getCurrentYCoordinate())
+    {
+      int column = getCurrentYCoordinate() - 1;
+      for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column--)
+      {
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //x increases and y decreases /^
+    else if(destinationXCoordinate > getCurrentXCoordinate() && destinationYCoordinate < getCurrentYCoordinate())
+    {
+      int column = getCurrentYCoordinate() - 1;
+      for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column--)
+      {
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //x decreases and y increases v/
+    else if (destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate > getCurrentYCoordinate())
+    {
+      int column = getCurrentYCoordinate() + 1;
+      for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column++)
+      {
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks if the horizontal and vertical motion
+    //this check must come after the diagonal check for the boolean expressions to be evaluated in the correct order
+
+    //checks the positive horizontal motion
+    if (destinationXCoordinate > getCurrentXCoordinate() && destinationYCoordinate == getCurrentYCoordinate())
+    {
+      for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++)
+      {
+        int column = destinationYCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks the negative horizontal motion
+    else if(destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate == getCurrentYCoordinate())
+    {
+      System.out.println("2");
+      for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--)
+      {
+        int column = destinationYCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks the potitive vertical motion
+    else if(destinationYCoordinate > getCurrentYCoordinate() && destinationXCoordinate == getCurrentXCoordinate())
+    {
+      System.out.println("3");
+      for (int column = getCurrentYCoordinate() + 1; column < destinationYCoordinate; column++)
+      {
+        int row = destinationXCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks the negative vertical motion
+    else
+    {
+      System.out.println("4");
+      for (int column = getCurrentYCoordinate() - 1; column > destinationYCoordinate; column--)
+      {
+        int row = destinationXCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+  }//isNotBlockedMove method
 }//Queen Class
