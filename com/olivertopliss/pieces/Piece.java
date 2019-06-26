@@ -63,5 +63,7 @@ public abstract class Piece
 
   public abstract void move(int xDestination, int yDestination);
 
+  public abstract boolean isValidMove(int xDestination, int yDestination);
+
   public abstract String toString();
 }//Piece Class
