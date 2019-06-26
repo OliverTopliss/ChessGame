@@ -38,6 +38,8 @@ public class Pawn extends Piece
       System.out.println("That move was invalid. Please try again.");
 
   }//move method
+
+
   //method that determines if a pawn is able in the appropriate position
   //to ressurect another piece depending on the its colour
   private boolean ableToResurrect()
@@ -46,9 +48,19 @@ public class Pawn extends Piece
             || (getTeam() == "Black" && getCurrentYCoordinate() == 0);
 
   }//ableToResurrect Method
+
+
   @Override
   public String toString()
   {
     return "%";
   }//toString method
+
+  @Override
+  //method that determines if the requested pawn move is valid
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+    //a move is only valid for a pawn if the pawn will move to a null place or will take a piece
+    return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+  }//isValidMove method
 }//Pawn Class
