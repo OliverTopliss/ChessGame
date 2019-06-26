@@ -47,4 +47,12 @@ public class King extends Piece
   {
 
   }//checkSafety Method
+
+  //method which determines if a kings move is valid
+  @Override
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+    //a kings move is only valid if it will take a piece or will move to a null place
+    return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+  }//isValidMove method
 }//King Class
