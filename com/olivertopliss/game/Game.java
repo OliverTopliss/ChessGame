@@ -227,30 +227,35 @@ public class Game extends JFrame implements ActionListener
 
     if(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).getTeam() == turn)
     {
-
       //gets the comma separated input coordinates and stores them in an array
       pieceDestinationCoordinates = (destinationCoords.split(","));
+
       //assigns the destination x and y coordinates
       destinationXCoordinate = Integer.parseInt(pieceDestinationCoordinates[0]);
       destinationYCoordinate = Integer.parseInt(pieceDestinationCoordinates[1]);
 
-      if (event.getSource() == submitCoordsButton) {
+      //if the submit button is pressed
+      if (event.getSource() == submitCoordsButton)
+      {
         //moves a piece to the destination x and y coordinates
         //if the destination isn't occupied or is a valid taking move then the move can go ahead
         if (board.getBoard(destinationXCoordinate, destinationYCoordinate) == null
-                || board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).willTakePiece(board.getBoard(destinationXCoordinate,
-                destinationYCoordinate))) {
+                || (board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).isValidMove(destinationXCoordinate,
+                destinationYCoordinate)))
+        {
           //if the move can go ahead and the destination is black piece
           // then the taken piece is added to the taken black pieces
           if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black")) {
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
+          {
             whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
           }//if
 
           //if the move can go ahead and the destination is a white piece
           // then the taken piece is added to the taken white pieces
           else if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White")) {
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
+          {
             blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
           }//if
 
@@ -279,6 +284,7 @@ public class Game extends JFrame implements ActionListener
         resurrectionButtonsPanel.setVisible(false);
       }//else if
       updateBoardGUI();
+
       if(turn == "White")
       {
         turn = "Black";
