@@ -16,11 +16,11 @@ public class Queen extends Piece
   @Override
   public void move(int xDestination, int yDestination)
   {
-    boolean notBlockedMove = isNotBlockedMove(xDestination, yDestination);
+    boolean validMove = isValidMove(xDestination, yDestination);
     // allows for movement on a diagonal (same x and y diff) or vertical (xdiff = 0) and horizontal motion (ydiff = 0)
     if ((abs(getCurrentXCoordinate() - xDestination) == 0 && abs(getCurrentYCoordinate() - yDestination) > 0
        || (abs(getCurrentXCoordinate() - xDestination) > 0 && abs(getCurrentYCoordinate() - yDestination) == 0)
-       || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))) && notBlockedMove)
+       || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))) && validMove)
     {
       //clears the queen current position
       Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
@@ -43,7 +43,8 @@ public class Queen extends Piece
 
   //method which determines whether a move can go ahead
   //checks that there are no pieces in the way of the motion
-  public boolean isNotBlockedMove(int destinationXCoordinate, int destinationYCoordinate)
+  @Override
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
 
     //checks diagonal aspect of the motion
@@ -59,7 +60,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -73,7 +74,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -87,7 +88,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -101,7 +102,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks if the horizontal and vertical motion
@@ -118,7 +119,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative horizontal motion
@@ -133,7 +134,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the potitive vertical motion
@@ -148,7 +149,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative vertical motion
@@ -163,7 +164,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return true;
+      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
   }//isNotBlockedMove method
 }//Queen Class
