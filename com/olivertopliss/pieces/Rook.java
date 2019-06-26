@@ -31,7 +31,10 @@ public class Rook extends Piece
       System.out.println("That move was valid");
     }//if
     else
+    {
       System.out.println("That move was invalid. Please try again.");
+    }//else
+
   }//move method
 
   @Override
@@ -40,32 +43,68 @@ public class Rook extends Piece
     return "#";
   }//toString method
 
+
   //method which determines whether a move can go ahead
   //checks that there are no pieces in the way of the motion
-  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate) {
-    if (destinationXCoordinate > getCurrentXCoordinate() || destinationYCoordinate > getCurrentYCoordinate()) {
-      for (int row = getCurrentXCoordinate(); row <= destinationXCoordinate; row++) {
-        for (int column = getCurrentYCoordinate(); column <= destinationYCoordinate; column++) {
-
-          if (!(Game.getBoard(row, column) == null)) {
-            return false;
-          }//if
-        }//for
+  public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
+  {
+    //checks the positive horizontal motion
+    if (destinationXCoordinate > getCurrentXCoordinate() && destinationYCoordinate == getCurrentYCoordinate())
+    {
+      for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++)
+      {
+        int column = destinationYCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
       }//for
       return true;
-    } //if
+    }//else if
+
+    //checks the negative horizontal motion
+    else if(destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate == getCurrentYCoordinate())
+    {
+      System.out.println("2");
+      for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--)
+      {
+        int column = destinationYCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks the potitive vertical motion
+    else if(destinationYCoordinate > getCurrentYCoordinate() && destinationXCoordinate == getCurrentXCoordinate())
+    {
+      System.out.println("3");
+      for (int column = getCurrentYCoordinate() + 1; column < destinationYCoordinate; column++)
+      {
+        int row = destinationXCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
+      }//for
+      return true;
+    }//else if
+
+    //checks the negative vertical motion
     else
     {
-      for (int row = getCurrentXCoordinate(); row >= destinationXCoordinate; row--) {
-        for (int column = getCurrentYCoordinate(); column >= destinationYCoordinate; column--) {
-
-          if (!(Game.getBoard(row, column) == null))
-          {
-            return false;
-          }//if
-        }//for
+      System.out.println("4");
+      for (int column = getCurrentYCoordinate() - 1; column > destinationYCoordinate; column--)
+      {
+        int row = destinationXCoordinate;
+        if (!(Game.getBoard(row, column) == null))
+        {
+          return false;
+        }//if
       }//for
       return true;
-    }//else
+    }//else if
   }//isValidMove method
 }//Rook
