@@ -2,6 +2,7 @@ package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
 import com.olivertopliss.game.Game;
+import com.olivertopliss.pieces.Rook;
 import static java.lang.Math.abs;
 
 public class King extends Piece
@@ -38,8 +39,164 @@ public class King extends Piece
     return "?";
   }//toString method
 
-  public boolean isInCheck()
+  public boolean isInCheck(int currentXCoordinate, int currentYCoordinate)
   {
+    //check the vertical axis for a piece that could put the king in check (below this piece)
+    for(int column = currentYCoordinate + 1; column <=7; column++)
+    {
+      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the vertical axis for a piece that could put the king in check (above this piece)
+    for(int column = currentYCoordinate - 1; column <=0; column--)
+    {
+      if (Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if (Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if (Game.getBoard(currentXCoordinate, column) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+
+    //check the horizontal axis for a piece that could put the king in check (right of this piece ->)
+    for(int row = currentXCoordinate + 1; row <=7; row++)
+    {
+      if(Game.getBoard(row, currentYCoordinate) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(row, currentYCoordinate) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if(Game.getBoard(row, currentYCoordinate) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, horizontally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the horizontal axis for a piece that could put the king in check (left of this piece <-)
+    for(int column = currentYCoordinate - 1; column <=0; column--)
+    {
+      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, horizontally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the diagonal axis for a piece that could put the king in check (north-east of this piece /^)
+    for(int column = currentYCoordinate - 1, row = currentXCoordinate + 1; column >=0 && row <=7; column--, row++)
+    {
+      //only checks for a bishop because the bishop is the only diagonal piece with variable range
+      if(Game.getBoard(row, column) instanceof Bishop)
+      {
+        return true;
+      }//if
+      //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the diagonal axis for a piece that could put the king in check (south-west of this piece v/)
+    for(int column = currentYCoordinate + 1, row = currentXCoordinate - 1; column <=7 && row >=0; column++, row--)
+    {
+      //only checks for a bishop because the bishop is the only diagonal piece with variable range
+      if(Game.getBoard(row, column) instanceof Bishop)
+      {
+        return true;
+      }//if
+      //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the diagonal axis for a piece that could put the king in check (north-east of this piece /^)
+    for(int column = currentYCoordinate - 1, row = currentXCoordinate - 1; column >=0 && row >=0; column--, row--)
+    {
+      //only checks for a bishop because the bishop is the only diagonal piece with variable range
+      if(Game.getBoard(row, column) instanceof Bishop)
+      {
+        return true;
+      }//if
+      //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the diagonal axis for a piece that could put the king in check (south-east of this piece \v)
+    for(int column = currentYCoordinate + 1, row = currentXCoordinate + 1; column <=7 && row <=7; column++, row++)
+    {
+      //only checks for a bishop because the bishop is the only diagonal piece with variable range
+      if(Game.getBoard(row, column) instanceof Bishop)
+      {
+        return true;
+      }//if
+      //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
     return false;
   }//isInCheck Method
 
