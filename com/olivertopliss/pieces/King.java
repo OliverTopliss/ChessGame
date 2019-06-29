@@ -39,102 +39,66 @@ public class King extends Piece
     return "?";
   }//toString method
 
-  public boolean isInCheck(int currentXCoordinate, int currentYCoordinate)
+
+  public static boolean isInCheck(int kingXCoordinate, int kingYCoordinate)
   {
-    //check the vertical axis for a piece that could put the king in check (below this piece)
-    for(int column = currentYCoordinate + 1; column <=7; column++)
+    int currentXCoordinate = kingXCoordinate;
+    int currentYCoordinate = kingYCoordinate;
+
+    return false;
+
+  }//isInCheck Method
+
+
+  private boolean inCheckFromPawn(int currentXCoordinate, int currentYCoordinate)
+  {
+    if(getTeam() == "Black" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1) instanceof Pawn)
+                                  || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1) instanceof Pawn)))
     {
-      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
-      {
-        return true;
-      }//if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
-      {
-        return true;
-      }//else if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
-      {
-        return true;
-      }//else if
-      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
-      //and no further checks need to be made in this direction so loop is exited
-      else
-      {
-        break;
-      }//else
-    }//for
+      return true;
+    }//else if
 
-    //check the vertical axis for a piece that could put the king in check (above this piece)
-    for(int column = currentYCoordinate - 1; column <=0; column--)
+    //checks the appropriate diagonals of where pawns could be to
+    //cause the king to be put into check which depends on the colour
+    else if(getTeam() == "White" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 1) instanceof Pawn)
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 1) instanceof Pawn)))
     {
-      if (Game.getBoard(currentXCoordinate, column) instanceof Rook)
-      {
-        return true;
-      }//if
-      else if (Game.getBoard(currentXCoordinate, column) instanceof Queen)
-      {
-        return true;
-      }//else if
-      else if (Game.getBoard(currentXCoordinate, column) instanceof King)
-      {
-        return true;
-      }//else if
-      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
-      //and no further checks need to be made in this direction so loop is exited
-      else
-      {
-        break;
-      }//else
-    }//for
-
-
-    //check the horizontal axis for a piece that could put the king in check (right of this piece ->)
-    for(int row = currentXCoordinate + 1; row <=7; row++)
+      return true;
+    }//if
+    else if(getTeam() == "Black" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1) instanceof Pawn)
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1) instanceof Pawn)))
     {
-      if(Game.getBoard(row, currentYCoordinate) instanceof Rook)
-      {
-        return true;
-      }//if
-      else if(Game.getBoard(row, currentYCoordinate) instanceof Queen)
-      {
-        return true;
-      }//else if
-      else if(Game.getBoard(row, currentYCoordinate) instanceof King)
-      {
-        return true;
-      }//else if
-      //if another piece is encountered that is not a rook, queen or king then, horizontally, the piece isn't in check
-      //and no further checks need to be made in this direction so loop is exited
-      else
-      {
-        break;
-      }//else
-    }//for
-
-    //check the horizontal axis for a piece that could put the king in check (left of this piece <-)
-    for(int column = currentYCoordinate - 1; column <=0; column--)
+      return true;
+    }//else if
+    else
     {
-      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
-      {
-        return true;
-      }//if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
-      {
-        return true;
-      }//else if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
-      {
-        return true;
-      }//else if
-      //if another piece is encountered that is not a rook, queen or king then, horizontally, the piece isn't in check
-      //and no further checks need to be made in this direction so loop is exited
-      else
-      {
-        break;
-      }//else
-    }//for
+      return false;
+    }//else
+  }//inCheckFromPawn Method
 
-    //check the diagonal axis for a piece that could put the king in check (north-east of this piece /^)
+
+  private boolean inCheckFromKnight(int currentXCoordinate, int currentYCoordinate)
+  {
+    if((Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 2) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 2) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate + 1) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate - 1) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 2) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 2) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate - 1) instanceof Knight)
+            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate + 1) instanceof Knight))
+    {
+      return true;
+    }//if
+    else
+    {
+      return false;
+    }//else
+  }//inCheckFromKnight
+
+
+  private boolean inCheckFromBishop(int currentXCoordinate, int currentYCoordinate)
+  {
     for(int column = currentYCoordinate - 1, row = currentXCoordinate + 1; column >=0 && row <=7; column--, row++)
     {
       //only checks for a bishop because the bishop is the only diagonal piece with variable range
@@ -197,8 +161,101 @@ public class King extends Piece
         break;
       }//else
     }//for
+
     return false;
-  }//isInCheck Method
+  }//inCheckFromBishop
+
+
+  private boolean inCheckFromRook(int currentXCoordinate, int currentYCoordinate)
+  {
+    for(int row = currentXCoordinate + 1; row <=7; row++)
+    {
+      if(Game.getBoard(row, currentYCoordinate) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(row, currentYCoordinate) instanceof Queen)
+      {
+        return true;
+      }//else if
+
+      //if another piece is encountered that is not a rook, queen then, horizontally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the horizontal axis for a piece that could put the king in check (left of this piece <-)
+    for(int column = currentYCoordinate - 1; column >= 0; column--)
+    {
+      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+
+      //if another piece is encountered that is not a rook, queen then, horizontally, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the vertical axis for a piece that could put the king in check (below this piece)
+    for(int column = currentYCoordinate + 1; column <= 7; column++)
+    {
+      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    //check the vertical axis for a piece that could put the king in check (above this piece)
+    for(int column = currentYCoordinate - 1; column <=0; column--)
+    {
+      if (Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      {
+        return true;
+      }//if
+      else if (Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      {
+        return true;
+      }//else if
+      else if (Game.getBoard(currentXCoordinate, column) instanceof King)
+      {
+        return true;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else
+      {
+        break;
+      }//else
+    }//for
+
+    return false;
+  }//inCheckFromRook
+
 
   public void checkSafety()
   {
