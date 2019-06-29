@@ -54,7 +54,9 @@ public class Board
 
     //spawns king into starting positions
     board[0][4] = new King("White", 4, 0);
+    Game.getChessGame().setWhiteKingCoordinates(4, 0);
     board[7][3] = new King("Black", 3, 7);
+    Game.getChessGame().setWhiteKingCoordinates(3, 7);
 
   }// initialise Method
 
