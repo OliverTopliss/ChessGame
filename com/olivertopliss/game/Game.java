@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import com.olivertopliss.pieces.Piece;
 import com.olivertopliss.pieces.Rook;
 import com.olivertopliss.pieces.Knight;
+import com.olivertopliss.pieces.King;
 import com.olivertopliss.pieces.Bishop;
 import com.olivertopliss.pieces.Queen;
 
@@ -26,6 +27,13 @@ public class Game extends JFrame implements ActionListener
   private static Board board;
   private static Game chessGame;
   private String turn = "White";
+
+  //variables to track the location of each of the kings to be used later to check whether a king is in check
+  //stay as 0 until assigned
+  private int whiteKingXCoordinate = 0;
+  private int whiteKingYCoordinate = 0;
+  private int blackKingXCoordinate = 0;
+  private int blackKingYCoordinate = 0;
 
 
   //creates a gui for the coordinates of pieces/destination to be input
@@ -261,6 +269,11 @@ public class Game extends JFrame implements ActionListener
 
           board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
 
+          if(King.isInCheck())
+          {
+            System.out.println("Check");
+          }//if
+
         }//if
       }//if
       else if (event.getSource() == chooseRookButton) {
@@ -312,6 +325,18 @@ public class Game extends JFrame implements ActionListener
   {
     resurrectionButtonsPanel.setVisible(isVisible);
   }//setResurrectionButtonsPanelVisible
+
+  public void setBlackKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
+  {
+    blackKingXCoordinate = requiredXCoordinate;
+    blackKingYCoordinate = requiredYCoordinate;
+  }//setBlackKingCoordinates
+
+  public void setWhiteKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
+  {
+    whiteKingXCoordinate = requiredXCoordinate;
+    whiteKingYCoordinate = requiredYCoordinate;
+  }//setWhiteKingCoordinates
 
   public static Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
