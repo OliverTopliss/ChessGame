@@ -269,7 +269,7 @@ public class Game extends JFrame implements ActionListener
 
           board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
 
-          if(King.isInCheck())
+          if(getKing(whiteKingXCoordinate, whiteKingYCoordinate).isInCheck())
           {
             System.out.println("Check");
           }//if
@@ -336,7 +336,13 @@ public class Game extends JFrame implements ActionListener
   {
     whiteKingXCoordinate = requiredXCoordinate;
     whiteKingYCoordinate = requiredYCoordinate;
+    System.out.println("heor2hro2ih");
   }//setWhiteKingCoordinates
+
+  public King getKing(int kingXCoordinate, int kingYCoordinate)
+  {
+    return (King) getBoard(kingXCoordinate, kingYCoordinate);
+  }
 
   public static Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
