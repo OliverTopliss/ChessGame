@@ -26,6 +26,15 @@ public class King extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
       Game.setBoard(xDestination, yDestination, this);
+
+      if(getTeam() == "White")
+      {
+        Game.getChessGame().setWhiteKingCoordinates(xDestination, yDestination);
+      }
+      else if(getTeam() == "Black")
+      {
+        Game.getChessGame().setBlackKingCoordinates(xDestination, yDestination);
+      }
     }// if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -40,12 +49,15 @@ public class King extends Piece
   }//toString method
 
 
-  public static boolean isInCheck(int kingXCoordinate, int kingYCoordinate)
+  public boolean isInCheck()
   {
-    int currentXCoordinate = kingXCoordinate;
-    int currentYCoordinate = kingYCoordinate;
+    int currentXCoordinate = getCurrentXCoordinate();
+    int currentYCoordinate = getCurrentYCoordinate();
 
-    return false;
+    return inCheckFromPawn(currentXCoordinate, currentYCoordinate)
+            || inCheckFromRook(currentXCoordinate, currentYCoordinate)
+            || inCheckFromKnight(currentXCoordinate, currentYCoordinate)
+            || inCheckFromBishop(currentXCoordinate, currentYCoordinate);
 
   }//isInCheck Method
 
