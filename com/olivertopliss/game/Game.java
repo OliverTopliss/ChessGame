@@ -169,9 +169,7 @@ public class Game extends JFrame implements ActionListener
   public void initialise()
   {
     board.initialise();
-
     updateBoardGUI();
-
   }// initialise method
 
 
@@ -271,7 +269,12 @@ public class Game extends JFrame implements ActionListener
 
           if(getKing(whiteKingXCoordinate, whiteKingYCoordinate).isInCheck())
           {
-            System.out.println("Check");
+            System.out.println("White is in Check");
+          }//if
+
+          if(getKing(blackKingXCoordinate, blackKingYCoordinate).isInCheck())
+          {
+            System.out.println("Black is in Check");
           }//if
 
         }//if
@@ -336,17 +339,26 @@ public class Game extends JFrame implements ActionListener
   {
     whiteKingXCoordinate = requiredXCoordinate;
     whiteKingYCoordinate = requiredYCoordinate;
-    System.out.println("heor2hro2ih");
   }//setWhiteKingCoordinates
 
   public King getKing(int kingXCoordinate, int kingYCoordinate)
   {
-    return (King) getBoard(kingXCoordinate, kingYCoordinate);
-  }
+    Piece king = getBoard(kingXCoordinate, kingYCoordinate);
+    String team = king.getTeam();
+
+    return new King(team, kingXCoordinate, kingYCoordinate);
+  }//getKing method
 
   public static Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
   {
-    return board.getBoard(xCoordinateToGet, yCoordinateToGet);
+    try
+    {
+      return board.getBoard(xCoordinateToGet, yCoordinateToGet);
+    }//try
+    catch (IndexOutOfBoundsException indexOutOfBoundsException)
+    {
+      return null;
+    }//catch
   }//setBoard
 
   //accessor method for getting the chessGame variable
