@@ -19,13 +19,6 @@ public class King extends Piece
     //if both differences are 1 the diagonal move but if only one of them is 1 then its vertical or horizontal
     if((abs(getCurrentXCoordinate() - xDestination) == 1 || (abs(getCurrentYCoordinate() - yDestination) == 1)))
     {
-      //clears the bishops current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
-      //updates the bishops coordinates
-      setCurrentXCoordinate(xDestination);
-      setCurrentYCoordinate(yDestination);
-      //moves the bishop to the new  location
-      Game.setBoard(xDestination, yDestination, this);
 
       if(getTeam() == "White")
       {
@@ -35,6 +28,13 @@ public class King extends Piece
       {
         Game.getChessGame().setBlackKingCoordinates(xDestination, yDestination);
       }
+      //clears the bishops current position
+      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+      //updates the bishops coordinates
+      setCurrentXCoordinate(xDestination);
+      setCurrentYCoordinate(yDestination);
+      //moves the bishop to the new  location
+      Game.setBoard(xDestination, yDestination, this);
     }// if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -55,33 +55,37 @@ public class King extends Piece
     int currentYCoordinate = getCurrentYCoordinate();
 
     return inCheckFromPawn(currentXCoordinate, currentYCoordinate)
-            || inCheckFromRook(currentXCoordinate, currentYCoordinate)
-            || inCheckFromKnight(currentXCoordinate, currentYCoordinate)
-            || inCheckFromBishop(currentXCoordinate, currentYCoordinate);
+            | inCheckVerticalOrHorizontal(currentXCoordinate, currentYCoordinate)
+            | inCheckFromKnight(currentXCoordinate, currentYCoordinate)
+            | inCheckDiagonal(currentXCoordinate, currentYCoordinate);
 
   }//isInCheck Method
 
 
   private boolean inCheckFromPawn(int currentXCoordinate, int currentYCoordinate)
   {
-    if(getTeam() == "Black" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1) instanceof Pawn)
-                                  || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1) instanceof Pawn)))
-    {
-      return true;
-    }//else if
-
     //checks the appropriate diagonals of where pawns could be to
     //cause the king to be put into check which depends on the colour
-    else if(getTeam() == "White" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 1) instanceof Pawn)
-            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 1) instanceof Pawn)))
+    Piece potentialPawnCausingCheck1 = null;
+    Piece potentialPawnCausingCheck2 = null;
+    if(getTeam() == "black")
     {
+      potentialPawnCausingCheck1 = Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1);
+      potentialPawnCausingCheck2 = Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1);
+      System.out.println(potentialPawnCausingCheck1 + " " + potentialPawnCausingCheck2);
+    }
+    else
+    {
+      potentialPawnCausingCheck1 = Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 1);
+      potentialPawnCausingCheck2 = Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 1);
+    }
+
+    if((potentialPawnCausingCheck1 instanceof Pawn && !isPlayersTeam(potentialPawnCausingCheck1))
+        || (potentialPawnCausingCheck2 instanceof Pawn && !isPlayersTeam(potentialPawnCausingCheck2)))
+    {
+      System.out.println("Check - Pawn");
       return true;
     }//if
-    else if(getTeam() == "Black" && ((Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1) instanceof Pawn)
-            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1) instanceof Pawn)))
-    {
-      return true;
-    }//else if
     else
     {
       return false;
@@ -91,6 +95,7 @@ public class King extends Piece
 
   private boolean inCheckFromKnight(int currentXCoordinate, int currentYCoordinate)
   {
+
     if((Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 2) instanceof Knight)
             || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 2) instanceof Knight)
             || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate + 1) instanceof Knight)
@@ -100,6 +105,7 @@ public class King extends Piece
             || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate - 1) instanceof Knight)
             || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate + 1) instanceof Knight))
     {
+      System.out.println("Check - Knight ");
       return true;
     }//if
     else
@@ -109,18 +115,28 @@ public class King extends Piece
   }//inCheckFromKnight
 
 
-  private boolean inCheckFromBishop(int currentXCoordinate, int currentYCoordinate)
+  private boolean inCheckDiagonal(int currentXCoordinate, int currentYCoordinate)
   {
+    boolean queenCheck = false;
+    boolean bishopCheck = false;
+
     for(int column = currentYCoordinate - 1, row = currentXCoordinate + 1; column >=0 && row <=7; column--, row++)
     {
       //only checks for a bishop because the bishop is the only diagonal piece with variable range
-      if(Game.getBoard(row, column) instanceof Bishop)
+      Piece pieceToCheck = Game.getBoard(row, column);
+      if(pieceToCheck instanceof Bishop && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Bishop ");
+        bishopCheck = true;
+      }//if
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Queen ");
+        queenCheck = true;
       }//if
       //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if (pieceToCheck != null)
       {
         break;
       }//else
@@ -129,14 +145,21 @@ public class King extends Piece
     //check the diagonal axis for a piece that could put the king in check (south-west of this piece v/)
     for(int column = currentYCoordinate + 1, row = currentXCoordinate - 1; column <=7 && row >=0; column++, row--)
     {
+      Piece pieceToCheck = Game.getBoard(row, column);
       //only checks for a bishop because the bishop is the only diagonal piece with variable range
-      if(Game.getBoard(row, column) instanceof Bishop)
+      if(pieceToCheck instanceof Bishop && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Bishop ");
+        bishopCheck = true;
+      }//if
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Queen ");
+        queenCheck = true;
       }//if
       //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if (pieceToCheck != null)
       {
         break;
       }//else
@@ -145,14 +168,21 @@ public class King extends Piece
     //check the diagonal axis for a piece that could put the king in check (north-east of this piece /^)
     for(int column = currentYCoordinate - 1, row = currentXCoordinate - 1; column >=0 && row >=0; column--, row--)
     {
+      Piece pieceToCheck = Game.getBoard(row, column);
       //only checks for a bishop because the bishop is the only diagonal piece with variable range
-      if(Game.getBoard(row, column) instanceof Bishop)
+      if(pieceToCheck instanceof Bishop && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Bishop ");
+        bishopCheck = true;
+      }//if
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Queen ");
+        queenCheck = true;
       }//if
       //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if (pieceToCheck != null)
       {
         break;
       }//else
@@ -161,111 +191,155 @@ public class King extends Piece
     //check the diagonal axis for a piece that could put the king in check (south-east of this piece \v)
     for(int column = currentYCoordinate + 1, row = currentXCoordinate + 1; column <=7 && row <=7; column++, row++)
     {
+      Piece pieceToCheck = Game.getBoard(row, column);
       //only checks for a bishop because the bishop is the only diagonal piece with variable range
-      if(Game.getBoard(row, column) instanceof Bishop)
+      if(pieceToCheck instanceof Bishop && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Bishop ");
+        bishopCheck = true;
+      }//if
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Queen ");
+        queenCheck = true;
       }//if
       //if another piece is encountered that is not a bishop, diagonally, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if (pieceToCheck != null)
       {
         break;
       }//else
     }//for
 
-    return false;
+    return queenCheck || bishopCheck;
   }//inCheckFromBishop
 
 
-  private boolean inCheckFromRook(int currentXCoordinate, int currentYCoordinate)
+  private boolean inCheckVerticalOrHorizontal(int currentXCoordinate, int currentYCoordinate)
   {
-    for(int row = currentXCoordinate + 1; row <=7; row++)
-    {
-      if(Game.getBoard(row, currentYCoordinate) instanceof Rook)
-      {
-        return true;
-      }//if
-      else if(Game.getBoard(row, currentYCoordinate) instanceof Queen)
-      {
-        return true;
-      }//else if
-
-      //if another piece is encountered that is not a rook, queen then, horizontally, the piece isn't in check
-      //and no further checks need to be made in this direction so loop is exited
-      else
-      {
-        break;
-      }//else
-    }//for
+    boolean rookCheck = false;
+    boolean queenCheck = false;
+    boolean kingCheck = false;
 
     //check the horizontal axis for a piece that could put the king in check (left of this piece <-)
     for(int column = currentYCoordinate - 1; column >= 0; column--)
     {
-      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      Piece pieceToCheck = Game.getBoard(currentXCoordinate, column);
+      if(pieceToCheck instanceof Rook && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Rook ");
+        rookCheck = true;
+        break;
       }//if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Queen ");
+        queenCheck = true;
+        break;
       }//else if
 
       //if another piece is encountered that is not a rook, queen then, horizontally, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if(pieceToCheck != null)
       {
         break;
       }//else
     }//for
 
-    //check the vertical axis for a piece that could put the king in check (below this piece)
+    //check the horizontal axis for a piece that could put the king in check (right of this piece ->)
     for(int column = currentYCoordinate + 1; column <= 7; column++)
     {
-      if(Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      Piece pieceToCheck = Game.getBoard(currentXCoordinate, column);
+      if(pieceToCheck instanceof Rook && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Rook ");
+        rookCheck = true;
+        break;
       }//if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Queen ");
+        queenCheck = true;
+        break;
       }//else if
-      else if(Game.getBoard(currentXCoordinate, column) instanceof King)
+
+      else if(pieceToCheck instanceof King && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - King ");
+        kingCheck = true;
+        break;
       }//else if
       //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if(pieceToCheck != null)
       {
         break;
       }//else
     }//for
 
     //check the vertical axis for a piece that could put the king in check (above this piece)
-    for(int column = currentYCoordinate - 1; column <=0; column--)
+    for(int row = currentXCoordinate - 1; row >= 0; row--)
     {
-      if (Game.getBoard(currentXCoordinate, column) instanceof Rook)
+      Piece pieceToCheck = Game.getBoard(row, currentYCoordinate);
+      if(pieceToCheck instanceof Rook && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Rook ");
+        rookCheck = true;
+        break;
       }//if
-      else if (Game.getBoard(currentXCoordinate, column) instanceof Queen)
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - Queen ");
+        queenCheck = true;
+        break;
       }//else if
-      else if (Game.getBoard(currentXCoordinate, column) instanceof King)
+
+      else if(pieceToCheck instanceof King && pieceToCheck.getTeam() != getTeam())
       {
-        return true;
+        System.out.println("Check - King ");
+        kingCheck = true;
+        break;
       }//else if
       //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
       //and no further checks need to be made in this direction so loop is exited
-      else
+      else if(pieceToCheck != null)
       {
         break;
       }//else
     }//for
 
-    return false;
+    //check the vertical axis for a piece that could put the king in check (below this piece)
+    for(int row = currentXCoordinate + 1; row <=7; row++)
+    {
+      Piece pieceToCheck = Game.getBoard(row, currentYCoordinate);
+      if(pieceToCheck instanceof Rook && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Rook ");
+        rookCheck = true;
+        break;
+      }//if
+      else if(pieceToCheck instanceof Queen && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - Queen ");
+        queenCheck = true;
+        break;
+      }//else if
+
+      else if(pieceToCheck instanceof King && pieceToCheck.getTeam() != getTeam())
+      {
+        System.out.println("Check - King ");
+        kingCheck = true;
+        break;
+      }//else if
+      //if another piece is encountered that is not a rook, queen or king then, vertically, the piece isn't in check
+      //and no further checks need to be made in this direction so loop is exited
+      else if(pieceToCheck != null)
+      {
+        break;
+      }//else
+    }//for
+
+    return kingCheck || rookCheck || queenCheck;
   }//inCheckFromRook
 
 
