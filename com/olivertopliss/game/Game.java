@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,6 +37,9 @@ public class Game extends JFrame implements ActionListener
   private int whiteKingYCoordinate = 0;
   private int blackKingXCoordinate = 0;
   private int blackKingYCoordinate = 0;
+
+  private Set<String> setOfWhiteCheckPositions = new TreeSet<String>();
+  private Set<String> setOfBlackCheckPositions = new TreeSet<String>();
 
 
   //creates a gui for the coordinates of pieces/destination to be input
@@ -270,6 +276,7 @@ public class Game extends JFrame implements ActionListener
           if(getKing(whiteKingXCoordinate, whiteKingYCoordinate).isInCheck())
           {
             System.out.println("White is in Check");
+
           }//if
 
           if(getKing(blackKingXCoordinate, blackKingYCoordinate).isInCheck())
@@ -314,6 +321,7 @@ public class Game extends JFrame implements ActionListener
     {
       System.out.println("Not your turn yet!");
     }//else
+    //updateCheckPositions();
 
   }//actionPerformed
 
@@ -372,4 +380,48 @@ public class Game extends JFrame implements ActionListener
   {
     return turn;
   }//getTurn
+
+  private void updateCheckPositions()
+  {
+    setOfBlackCheckPositions.clear();
+    setOfWhiteCheckPositions.clear();
+
+    //loops thorugh every position on the board
+    for(int row = 0; row <= 7; row++)
+    {
+      for(int colummn = 0; column <= 7; column++)
+      {
+        //checks the colour of the piece so it is added to the correct set
+        if(getBoard(row, column).getTeam == "Black")
+        {
+          if(getBoard(row, column) instanceof Pawn)
+          {
+            //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+            setOfBlackCheckPositions.add(row - 1 + "," + column - 1);
+            setOfBlackCheckPositions.add(row - 1 + "," + column + 1);
+          }//if
+
+          else if(getBoard(row, column) instanceof Rook || getBoard(row, colummn) instanceof Queen)
+          {
+            int pieceRow = row;
+            int pieceColumn = column;
+            while(getBoard(pieceRow + 1, pieceColumn) == null)
+            {
+              //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+              setOfBlackCheckPositions.add(pieceRow + 1 + "," + pieceColumn);
+              pieceRow++;
+            }//while
+
+            pieceRow = row;
+            pieceColumn = column;
+            while(getBoard(pieceRow, pieceColumn + 1) == null)
+            {
+              setOfBlackCheckPositions.add(pieceRow + "," + pieceColumn + 1);
+              pieceColumn++;
+            }//while
+          }//else if
+        }//if
+      }//for
+    }//for
+  }//updateCheckPositions
 }// Game class
