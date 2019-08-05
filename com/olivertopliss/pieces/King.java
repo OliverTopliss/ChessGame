@@ -23,11 +23,12 @@ public class King extends Piece
       if(getTeam() == "White")
       {
         Game.getChessGame().setWhiteKingCoordinates(xDestination, yDestination);
-      }
+      }//if
       else if(getTeam() == "Black")
       {
         Game.getChessGame().setBlackKingCoordinates(xDestination, yDestination);
-      }
+      }//else if
+
       //clears the bishops current position
       Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the bishops coordinates
@@ -37,9 +38,9 @@ public class King extends Piece
       Game.setBoard(xDestination, yDestination, this);
     }// if
     else
+    {
       System.out.println("That move was invalid. Please try again.");
-
-
+    }//else
   }//move method
 
   @Override
@@ -49,6 +50,7 @@ public class King extends Piece
   }//toString method
 
 
+  //method which determines if a king is in check
   public boolean isInCheck()
   {
     int currentXCoordinate = getCurrentXCoordinate();
@@ -61,6 +63,26 @@ public class King extends Piece
 
   }//isInCheck Method
 
+//  //method which determines if the king is in check mate
+//  public boolean isInCheckMate()
+//  {
+//    int currentXCoordinate = getCurrentXCoordinate();
+//    int currentYCoordinate = getCurrentYCoordinate();
+//
+//    //if the king cannot move then it is in check mate unless it can take a piece to get out of check
+//    boolean kingIsTrapped =  (Game.getBoard(currentXCoordinate - 1, currentYCoordinate) != null)
+//                          && (Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1) != null)
+//                          && (Game.getBoard(currentXCoordinate, currentYCoordinate - 1) != null)
+//                          && (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1) != null)
+//                          && (Game.getBoard(currentXCoordinate + 1, currentYCoordinate) != null)
+//                          && (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 1) != null)
+//                          && (Game.getBoard(currentXCoordinate, currentYCoordinate + 1) != null)
+//                          && (Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 1) != null);
+//
+////    boolean canBlockCheck =
+//
+//
+//  }//isInCheckMate
 
   private boolean inCheckFromPawn(int currentXCoordinate, int currentYCoordinate)
   {
@@ -73,12 +95,12 @@ public class King extends Piece
       potentialPawnCausingCheck1 = Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 1);
       potentialPawnCausingCheck2 = Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 1);
       System.out.println(potentialPawnCausingCheck1 + " " + potentialPawnCausingCheck2);
-    }
+    }//if
     else
     {
       potentialPawnCausingCheck1 = Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 1);
       potentialPawnCausingCheck2 = Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 1);
-    }
+    }//else
 
     if((potentialPawnCausingCheck1 instanceof Pawn && !isPlayersTeam(potentialPawnCausingCheck1))
         || (potentialPawnCausingCheck2 instanceof Pawn && !isPlayersTeam(potentialPawnCausingCheck2)))
@@ -93,6 +115,8 @@ public class King extends Piece
   }//inCheckFromPawn Method
 
 
+  //method which checks all the possible positions around the king where knights could be
+  // to see if there is a knight on the opposite team causing check
   private boolean inCheckFromKnight(int currentXCoordinate, int currentYCoordinate)
   {
 
@@ -114,7 +138,7 @@ public class King extends Piece
     }//else
   }//inCheckFromKnight
 
-
+  //check the digonal directions from the king
   private boolean inCheckDiagonal(int currentXCoordinate, int currentYCoordinate)
   {
     boolean queenCheck = false;
@@ -214,7 +238,7 @@ public class King extends Piece
     return queenCheck || bishopCheck;
   }//inCheckFromBishop
 
-
+  //checks the vertical and horizontal directions from the king
   private boolean inCheckVerticalOrHorizontal(int currentXCoordinate, int currentYCoordinate)
   {
     boolean rookCheck = false;
@@ -340,7 +364,7 @@ public class King extends Piece
     }//for
 
     return kingCheck || rookCheck || queenCheck;
-  }//inCheckFromRook
+  }//inCheckHorizontallyOrVertically
 
 
   public void checkSafety()
