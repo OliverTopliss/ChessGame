@@ -97,13 +97,13 @@ public class King extends Piece
   {
 
     if((Game.getBoard(currentXCoordinate - 1, currentYCoordinate + 2) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 2) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate + 1) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate - 1) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 2) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 2) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate - 1) instanceof Knight)
-            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate + 1) instanceof Knight))
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 2) instanceof Knight && !Game.getBoard(currentXCoordinate + 1, currentYCoordinate + 2).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate + 1) instanceof Knight && !Game.getBoard(currentXCoordinate + 2, currentYCoordinate + 1).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate + 2, currentYCoordinate - 1) instanceof Knight && !Game.getBoard(currentXCoordinate + 2, currentYCoordinate - 1).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 2) instanceof Knight && !Game.getBoard(currentXCoordinate + 1, currentYCoordinate - 2).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 2) instanceof Knight && !Game.getBoard(currentXCoordinate - 1, currentYCoordinate - 2).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate - 1) instanceof Knight && !Game.getBoard(currentXCoordinate - 2, currentYCoordinate - 1).isPlayersTeam(this))
+            || (Game.getBoard(currentXCoordinate - 2, currentYCoordinate + 1) instanceof Knight && !Game.getBoard(currentXCoordinate - 2, currentYCoordinate + 1).isPlayersTeam(this)))
     {
       System.out.println("Check - Knight ");
       return true;
