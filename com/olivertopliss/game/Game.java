@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.JButton;
@@ -34,10 +33,10 @@ public class Game extends JFrame implements ActionListener
 
   //variables to track the location of each of the kings to be used later to check whether a king is in check
   //stay as 0 until assigned
-  private int whiteKingXCoordinate = 0;
-  private int whiteKingYCoordinate = 0;
-  private int blackKingXCoordinate = 0;
-  private int blackKingYCoordinate = 0;
+//  private int whiteKingXCoordinate = 0;
+//  private int whiteKingYCoordinate = 0;
+//  private int blackKingXCoordinate = 0;
+//  private int blackKingYCoordinate = 0;
 
   private static Set<String> setOfWhiteCheckPositions = new TreeSet<String>();
   private static Set<String> setOfBlackCheckPositions = new TreeSet<String>();
@@ -46,14 +45,14 @@ public class Game extends JFrame implements ActionListener
   //creates a gui for the coordinates of pieces/destination to be input
   private JTextField inputStartCoords = new JTextField("Input piece to move here");
   private JTextField inputDestinationCoords = new JTextField("Input destination here");
-  public Container contents = getContentPane();
+  private Container contents = getContentPane();
 
 
   //groups different components together in different panels.
   private JPanel inputsPanel = new JPanel();
   private JPanel choosePieceInput = new JPanel();
   private JPanel chooseDestinationInput = new JPanel();
-  private JPanel emptyPanelEast = new JPanel();
+//  private JPanel emptyPanelEast = new JPanel();
   private JPanel boardPanel = new JPanel();
   private JPanel whiteTakenPiecesPanel = new JPanel();
   private JPanel blackTakenPiecesPanel = new JPanel();
@@ -184,7 +183,7 @@ public class Game extends JFrame implements ActionListener
 
 
   //method which upadates the gridlayout with the contents of the board
-  public void updateBoardGUI()
+  private void updateBoardGUI()
   {
     boardPanel.removeAll();
     //loops throughtbhe board and outputs each piece as a label and adds it to the baord
@@ -194,7 +193,7 @@ public class Game extends JFrame implements ActionListener
       {
 
         //black piece
-        if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "Black")
+        if(board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam().equals("Black"))
         {
           //creates a jlabel of the relevnt piece and aligns it in the center of the label
           JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
@@ -203,7 +202,7 @@ public class Game extends JFrame implements ActionListener
           boardPanel.add(pieceLabel);
         }
         //white piece
-        else if (board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam() == "White")
+        else if (board.getBoard(row - 1, column - 1) != null && board.getBoard(row - 1, column - 1).getTeam().equals("White"))
         {
           //creates a jlabel of the relevnt piece and aligns it in the center of the label
           JLabel pieceLabel = new JLabel(board.getBoard(row - 1, column - 1).toString(), JLabel.CENTER);
@@ -241,7 +240,7 @@ public class Game extends JFrame implements ActionListener
     pieceToMoveXCoordinate = Integer.parseInt(pieceToMoveCoordinates[0]);
     pieceToMoveYCoordinate = Integer.parseInt(pieceToMoveCoordinates[1]);
 
-    if(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).getTeam() == turn)
+    if(board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).getTeam().equals(turn))
     {
       //gets the comma separated input coordinates and stores them in an array
       pieceDestinationCoordinates = (destinationCoords.split(","));
@@ -262,7 +261,7 @@ public class Game extends JFrame implements ActionListener
           //if the move can go ahead and the destination is black piece
           // then the taken piece is added to the taken black pieces
           if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "Black"))
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam().equals("Black")))
           {
             whiteTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
           }//if
@@ -270,42 +269,43 @@ public class Game extends JFrame implements ActionListener
           //if the move can go ahead and the destination is a white piece
           // then the taken piece is added to the taken white pieces
           else if ((board.getBoard(destinationXCoordinate, destinationYCoordinate) != null)
-                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam() == "White"))
+                  && (board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam().equals("White")))
           {
             blackTakenPiecesPanel.add(new JLabel(board.getBoard(destinationXCoordinate, destinationYCoordinate).toString()));
           }//if
 
           board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
 
-          getKing(whiteKingXCoordinate, whiteKingYCoordinate).isInCheck();
+          King whiteKing = board.getWhiteKing();
+          whiteKing.isInCheck();
 
-          getKing(blackKingXCoordinate, blackKingYCoordinate).isInCheck();
+          board.getBlackKing().isInCheck();
 
         }//if
       }//if
       else if (event.getSource() == chooseRookButton) {
         String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Rook(teamToResurrect, destinationXCoordinate, destinationYCoordinate, board));
         resurrectionButtonsPanel.setVisible(false);
       }//else if
       else if (event.getSource() == chooseKnightButton) {
         String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Knight(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Knight(teamToResurrect, destinationXCoordinate, destinationYCoordinate, board));
         resurrectionButtonsPanel.setVisible(false);
       }//else if
       else if (event.getSource() == chooseBishopButton) {
         String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Bishop(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Bishop(teamToResurrect, destinationXCoordinate, destinationYCoordinate, board));
         resurrectionButtonsPanel.setVisible(false);
       }//else if
       else if (event.getSource() == chooseQueenButton) {
         String teamToResurrect = board.getBoard(destinationXCoordinate, destinationYCoordinate).getTeam();
-        Game.setBoard(destinationXCoordinate, destinationYCoordinate, new Queen(teamToResurrect, destinationXCoordinate, destinationYCoordinate));
+        setBoard(destinationXCoordinate, destinationYCoordinate, new Queen(teamToResurrect, destinationXCoordinate, destinationYCoordinate, board));
         resurrectionButtonsPanel.setVisible(false);
       }//else if
       updateBoardGUI();
 
-      if(turn == "White")
+      if(turn.equals("White"))
       {
         turn = "Black";
       }//if
@@ -334,37 +334,37 @@ public class Game extends JFrame implements ActionListener
     resurrectionButtonsPanel.setVisible(isVisible);
   }//setResurrectionButtonsPanelVisible
 
-  public void setBlackKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
-  {
-    blackKingXCoordinate = requiredXCoordinate;
-    blackKingYCoordinate = requiredYCoordinate;
-  }//setBlackKingCoordinates
+//  public void setBlackKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
+//  {
+//    blackKingXCoordinate = requiredXCoordinate;
+//    blackKingYCoordinate = requiredYCoordinate;
+//  }//setBlackKingCoordinates
 
-  public void setWhiteKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
-  {
-    whiteKingXCoordinate = requiredXCoordinate;
-    whiteKingYCoordinate = requiredYCoordinate;
-  }//setWhiteKingCoordinates
+//  public void setWhiteKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
+//  {
+//    whiteKingXCoordinate = requiredXCoordinate;
+//    whiteKingYCoordinate = requiredYCoordinate;
+//  }//setWhiteKingCoordinates
 
-  public King getKing(int kingXCoordinate, int kingYCoordinate)
-  {
-    Piece king = getBoard(kingXCoordinate, kingYCoordinate);
-    String team = king.getTeam();
+//  private King getKing(int kingXCoordinate, int kingYCoordinate)
+//  {
+//    Piece king = getPiece(kingXCoordinate, kingYCoordinate);
+//    String team = king.getTeam();
+//
+//    return new King(team, kingXCoordinate, kingYCoordinate, board);
+//  }//getKing method
 
-    return new King(team, kingXCoordinate, kingYCoordinate);
-  }//getKing method
-
-  public static Piece getBoard(int xCoordinateToGet, int yCoordinateToGet)
-  {
-    try
-    {
-      return board.getBoard(xCoordinateToGet, yCoordinateToGet);
-    }//try
-    catch (IndexOutOfBoundsException indexOutOfBoundsException)
-    {
-      return null;
-    }//catch
-  }//setBoard
+//  private Piece getPiece(int xCoordinateToGet, int yCoordinateToGet)
+//  {
+//    try
+//    {
+//      return board.getBoard(xCoordinateToGet, yCoordinateToGet);
+//    }//try
+//    catch (IndexOutOfBoundsException indexOutOfBoundsException)
+//    {
+//      return null;
+//    }//catch
+//  }//setBoard
 
   //accessor method for getting the chessGame variable
   public static Game getChessGame()
@@ -373,10 +373,10 @@ public class Game extends JFrame implements ActionListener
   }//getChessGame method
 
   //accessor method for the turn
-  public String getTurn()
-  {
-    return turn;
-  }//getTurn
+//  public String getTurn()
+//  {
+//    return turn;
+//  }//getTurn
 
   private void updateCheckPositions()
   {
@@ -389,59 +389,59 @@ public class Game extends JFrame implements ActionListener
       for(int column = 0; column <= 7; column++)
       {
         //checks the colour of the piece so it is added to the correct set
-        if(getBoard(row, column) != null && getBoard(row, column).getTeam() == "Black")
+        if(board.getPiece(row, column) != null && board.getPiece(row, column).getTeam().equals("Black"))
         {
-          if(getBoard(row, column) instanceof Pawn)
+          if(board.getPiece(row, column) instanceof Pawn)
           {
             //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
             setOfBlackCheckPositions.add("(" + (row - 1) + "," + (column - 1) + ")");
             setOfBlackCheckPositions.add("(" + (row + 1) + "," + (column - 1) + ")");
           }//if
 
-          else if(getBoard(row, column) instanceof Rook)
+          else if(board.getPiece(row, column) instanceof Rook)
           {
             addVerticalAndHrizontalCheckPositions(setOfBlackCheckPositions, row, column);
           }//else if
 
-          else if(getBoard(row, column) instanceof Queen)
+          else if(board.getPiece(row, column) instanceof Queen)
           {
             addVerticalAndHrizontalCheckPositions(setOfBlackCheckPositions, row, column);
             addDiagonalCheckPositions(setOfBlackCheckPositions, row, column);
           }//else if
-          else if(getBoard(row, column) instanceof Bishop)
+          else if(board.getPiece(row, column) instanceof Bishop)
           {
             addDiagonalCheckPositions(setOfBlackCheckPositions, row, column);
           }//elseif
-          else if(getBoard(row, column) instanceof Knight)
+          else if(board.getPiece(row, column) instanceof Knight)
           {
             addKnightCheckPositions(setOfBlackCheckPositions, row, column);
           }//else if
         }//if
 
-        else if(getBoard(row, column) != null && getBoard(row, column).getTeam() == "White")
+        else if(board.getPiece(row, column) != null && board.getPiece(row, column).getTeam().equals("White"))
         {
-          if(getBoard(row, column) instanceof Pawn)
+          if(board.getPiece(row, column) instanceof Pawn)
           {
             //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
             setOfWhiteCheckPositions.add("(" + (row - 1) + "," + (column + 1) + ")");
             setOfWhiteCheckPositions.add("(" + (row + 1) + "," + (column + 1) + ")");
           }//if
 
-          else if(getBoard(row, column) instanceof Rook)
+          else if(board.getPiece(row, column) instanceof Rook)
           {
             addVerticalAndHrizontalCheckPositions(setOfWhiteCheckPositions, row, column);
           }//else if
 
-          else if(getBoard(row, column) instanceof Queen)
+          else if(board.getPiece(row, column) instanceof Queen)
           {
             addVerticalAndHrizontalCheckPositions(setOfWhiteCheckPositions, row, column);
             addDiagonalCheckPositions(setOfWhiteCheckPositions, row, column);
           }//else if
-          else if(getBoard(row, column) instanceof Bishop)
+          else if(board.getPiece(row, column) instanceof Bishop)
           {
             addDiagonalCheckPositions(setOfWhiteCheckPositions, row, column);
           }//elseif
-          else if(getBoard(row, column) instanceof Knight)
+          else if(board.getPiece(row, column) instanceof Knight)
           {
             addKnightCheckPositions(setOfWhiteCheckPositions, row, column);
           }//else if
@@ -455,7 +455,7 @@ public class Game extends JFrame implements ActionListener
     int pieceRow = rowToStartAt;
     int pieceColumn = columnToStartAt;
     //can't start at (row, column) because the current piece is never null
-    while(getBoard(pieceRow + 1, pieceColumn) == null && pieceRow + 1 <= 7)
+    while(board.getPiece(pieceRow + 1, pieceColumn) == null && pieceRow + 1 <= 7)
     {
       //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
       setToAppend.add("(" + (pieceRow + 1) + "," + pieceColumn + ")");
@@ -464,7 +464,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow, pieceColumn + 1) == null && pieceColumn + 1 <= 7)
+    while(board.getPiece(pieceRow, pieceColumn + 1) == null && pieceColumn + 1 <= 7)
     {
       setToAppend.add("(" + pieceRow + "," + (pieceColumn + 1) + ")");
       pieceColumn++;
@@ -472,7 +472,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow - 1, pieceColumn) == null && pieceRow - 1 >= 0)
+    while(board.getPiece(pieceRow - 1, pieceColumn) == null && pieceRow - 1 >= 0)
     {
       setToAppend.add("(" + (pieceRow - 1) + "," + pieceColumn + ")");
       pieceRow--;
@@ -480,7 +480,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow, pieceColumn - 1) == null && pieceColumn - 1 >= 0)
+    while(board.getPiece(pieceRow, pieceColumn - 1) == null && pieceColumn - 1 >= 0)
     {
       setToAppend.add("(" + pieceRow + "," + (pieceColumn - 1) + ")");
       pieceColumn--;
@@ -496,7 +496,7 @@ public class Game extends JFrame implements ActionListener
     int pieceRow = rowToStartAt;
     int pieceColumn = columnToStartAt;
     //can't start at (row, column) because the current piece is never null
-    while(getBoard(pieceRow + 1, pieceColumn + 1) == null && (pieceRow + 1 <= 7 && pieceColumn + 1 <= 7))
+    while(board.getPiece(pieceRow + 1, pieceColumn + 1) == null && (pieceRow + 1 <= 7 && pieceColumn + 1 <= 7))
     {
       //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
       setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn + 1) + ")");
@@ -506,7 +506,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow - 1, pieceColumn + 1) == null && (pieceRow - 1 >= 0 && pieceColumn + 1 <= 7))
+    while(board.getPiece(pieceRow - 1, pieceColumn + 1) == null && (pieceRow - 1 >= 0 && pieceColumn + 1 <= 7))
     {
       setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn + 1) + ")");
       pieceRow--;
@@ -515,7 +515,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow - 1, pieceColumn - 1) == null && (pieceRow - 1 >= 0 && pieceColumn - 1 >= 0))
+    while(board.getPiece(pieceRow - 1, pieceColumn - 1) == null && (pieceRow - 1 >= 0 && pieceColumn - 1 >= 0))
     {
       setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn - 1) + ")");
       pieceRow--;
@@ -524,7 +524,7 @@ public class Game extends JFrame implements ActionListener
 
     pieceRow = rowToStartAt;
     pieceColumn = columnToStartAt;
-    while(getBoard(pieceRow + 1, pieceColumn - 1) == null && (pieceRow + 1 <= 7 && pieceColumn - 1 >= 0))
+    while(board.getPiece(pieceRow + 1, pieceColumn - 1) == null && (pieceRow + 1 <= 7 && pieceColumn - 1 >= 0))
     {
       setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn - 1) + ")");
       pieceRow++;
@@ -570,4 +570,9 @@ public class Game extends JFrame implements ActionListener
 //    System.out.println("Caused by Black: " + setOfBlackCheckPositions);
     return setOfBlackCheckPositions;
   }//getSetOfBlackCheckPositions
+
+  public Board getBoard()
+  {
+    return board;
+  }
 }// Game class

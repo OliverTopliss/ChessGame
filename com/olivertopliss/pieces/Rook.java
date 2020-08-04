@@ -1,15 +1,16 @@
 package com.olivertopliss.pieces;
 
-import com.olivertopliss.game.Board;
 import static java.lang.Math.abs;
+
+import com.olivertopliss.game.Board;
 import com.olivertopliss.game.Game;
 
 public class Rook extends Piece
 {
 
-  public Rook(String team, int startXCoordinate, int startYCoordinate)
+  public Rook(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
-    super(team, startXCoordinate, startYCoordinate);
+    super(team, startXCoordinate, startYCoordinate, board);
   }//Rook Constructor
 
   @Override
@@ -54,13 +55,13 @@ public class Rook extends Piece
     {
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++)
       {
-        int column = destinationYCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+//        int column = destinationYCoordinate;
+        if (!(getBoard() == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative horizontal motion
@@ -70,12 +71,12 @@ public class Rook extends Piece
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--)
       {
         int column = destinationYCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the potitive vertical motion
@@ -85,12 +86,12 @@ public class Rook extends Piece
       for (int column = getCurrentYCoordinate() + 1; column < destinationYCoordinate; column++)
       {
         int row = destinationXCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative vertical motion
@@ -100,12 +101,12 @@ public class Rook extends Piece
       for (int column = getCurrentYCoordinate() - 1; column > destinationYCoordinate; column--)
       {
         int row = destinationXCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
   }//isValidMove method
 }//Rook

@@ -1,15 +1,14 @@
 package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
-import com.olivertopliss.game.Game;
 import static java.lang.Math.abs;
 
 public class Queen extends Piece
 {
 
-  public Queen(String team, int startXCoordinate,  int startYCoordinate)
+  public Queen(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
-    super(team, startXCoordinate, startYCoordinate);
+    super(team, startXCoordinate, startYCoordinate, board);
   }//Queen Constructor
 
 
@@ -23,12 +22,12 @@ public class Queen extends Piece
        || (abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination))) && validMove)
     {
       //clears the queen current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+      getBoard().setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the queen coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the queen to the new  location
-      Game.setBoard(xDestination, yDestination, this);
+      getBoard().setBoard(xDestination, yDestination, this);
     }//if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -55,12 +54,12 @@ public class Queen extends Piece
       int column = getCurrentYCoordinate() + 1;
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column++)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -69,12 +68,12 @@ public class Queen extends Piece
       int column = getCurrentYCoordinate() - 1;
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column--)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -83,12 +82,12 @@ public class Queen extends Piece
       int column = getCurrentYCoordinate() - 1;
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column--)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -97,12 +96,12 @@ public class Queen extends Piece
       int column = getCurrentYCoordinate() + 1;
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column++)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks if the horizontal and vertical motion
@@ -114,12 +113,12 @@ public class Queen extends Piece
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++)
       {
         int column = destinationYCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative horizontal motion
@@ -129,12 +128,12 @@ public class Queen extends Piece
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--)
       {
         int column = destinationYCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the potitive vertical motion
@@ -144,12 +143,12 @@ public class Queen extends Piece
       for (int column = getCurrentYCoordinate() + 1; column < destinationYCoordinate; column++)
       {
         int row = destinationXCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative vertical motion
@@ -159,12 +158,12 @@ public class Queen extends Piece
       for (int column = getCurrentYCoordinate() - 1; column > destinationYCoordinate; column--)
       {
         int row = destinationXCoordinate;
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
   }//isNotBlockedMove method
 }//Queen Class

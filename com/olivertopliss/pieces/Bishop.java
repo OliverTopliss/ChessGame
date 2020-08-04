@@ -1,13 +1,13 @@
 package com.olivertopliss.pieces;
-import com.olivertopliss.game.Board;
 import static java.lang.Math.abs;
-import com.olivertopliss.game.Game;
+
+import com.olivertopliss.game.Board;
 
 public class Bishop extends Piece
 {
-  public Bishop(String team, int startXCoordinate, int startYCoordinate)
+  public Bishop(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
-    super(team, startXCoordinate, startYCoordinate);
+    super(team, startXCoordinate, startYCoordinate, board);
   }//Bishop Constructor
 
   @Override
@@ -18,12 +18,12 @@ public class Bishop extends Piece
     if((abs(getCurrentXCoordinate() - xDestination) == abs(getCurrentYCoordinate() - yDestination) && validMove))
     {
       //clears the bishops current position
-      Game.setBoard(getCurrentXCoordinate(),getCurrentYCoordinate(), null);
+      getBoard().setBoard(getCurrentXCoordinate(),getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new location
-      Game.setBoard(xDestination, yDestination, this);
+      getBoard().setBoard(xDestination, yDestination, this);
     }// if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -48,12 +48,12 @@ public class Bishop extends Piece
       int column = getCurrentYCoordinate() + 1;
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column++)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -62,12 +62,12 @@ public class Bishop extends Piece
       int column = getCurrentYCoordinate() - 1;
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column--)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -76,12 +76,12 @@ public class Bishop extends Piece
       int column = getCurrentYCoordinate() - 1;
       for (int row = getCurrentXCoordinate() + 1; row < destinationXCoordinate; row++, column--)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -90,12 +90,12 @@ public class Bishop extends Piece
       int column = getCurrentYCoordinate() + 1;
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column++)
       {
-        if (!(Game.getBoard(row, column) == null))
+        if (!(getBoard().getBoard(row, column) == null))
         {
           return false;
         }//if
       }//for
-      return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
 

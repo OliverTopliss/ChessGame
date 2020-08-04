@@ -2,13 +2,14 @@ package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
 import com.olivertopliss.game.Game;
+
 import static java.lang.Math.abs;
 
 public class Pawn extends Piece
 {
-  public Pawn(String team, int startXCoordinate, int startYCoordinate)
+  public Pawn(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
-    super(team, startXCoordinate, startYCoordinate);
+    super(team, startXCoordinate, startYCoordinate, board);
   }//Pawn Constructor
 
   @Override
@@ -19,12 +20,12 @@ public class Pawn extends Piece
             && (abs(getCurrentYCoordinate() - yDestination) == 1))
     {
       //clears the pawn's current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+      getBoard().setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the pawn to the new  location
-      Game.setBoard(xDestination, yDestination, this);
+      getBoard().setBoard(xDestination, yDestination, this);
 
       //checks whether the pawn is in a position to be able to resurrect a piece
       if(ableToResurrect())
@@ -44,8 +45,8 @@ public class Pawn extends Piece
   //to ressurect another piece depending on the its colour
   private boolean ableToResurrect()
   {
-    return (getTeam() == "White" && getCurrentYCoordinate() == 7)
-            || (getTeam() == "Black" && getCurrentYCoordinate() == 0);
+    return (getTeam().equals("White") && getCurrentYCoordinate() == 7)
+            || (getTeam().equals("Black") && getCurrentYCoordinate() == 0);
 
   }//ableToResurrect Method
 
@@ -61,6 +62,6 @@ public class Pawn extends Piece
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //a move is only valid for a pawn if the pawn will move to a null place or will take a piece
-    return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
   }//isValidMove method
 }//Pawn Class

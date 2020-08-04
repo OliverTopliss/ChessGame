@@ -1,15 +1,14 @@
 package com.olivertopliss.pieces;
 
 import com.olivertopliss.game.Board;
-import com.olivertopliss.game.Game;
 import static java.lang.Math.abs;
 
 public class Knight extends Piece
 {
 
-  public Knight(String team, int startXCoordinate, int startYCoordinate)
+  public Knight(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
-    super(team, startXCoordinate, startYCoordinate);
+    super(team, startXCoordinate, startYCoordinate, board);
   }//Knight Constructor
 
   @Override
@@ -22,12 +21,12 @@ public class Knight extends Piece
         || (abs(getCurrentXCoordinate() - xDestination) == 2 && abs(getCurrentYCoordinate() - yDestination) == 1))
     {
       //clears the bishops current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+      getBoard().setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the bishops coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
-      Game.setBoard(xDestination, yDestination, this);
+      getBoard().setBoard(xDestination, yDestination, this);
     }//if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -42,6 +41,6 @@ public class Knight extends Piece
   @Override
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
-    return true && willTakePiece(Game.getBoard(destinationXCoordinate, destinationYCoordinate));
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
   }
 }//Piece

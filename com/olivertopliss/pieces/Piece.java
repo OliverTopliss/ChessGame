@@ -1,15 +1,18 @@
 package com.olivertopliss.pieces;
-import com.olivertopliss.game.Game;
+import com.olivertopliss.game.Board;
+
 public abstract class Piece
 {
   private final String TEAM;
   private int currentXCoordinate, currentYCoordinate;
+  private Board board;
 
-  public Piece(String team, int startXCoordinate, int startYCoordinate)
+  public Piece(String team, int startXCoordinate, int startYCoordinate, Board board)
   {
     TEAM = team;
     currentXCoordinate = startXCoordinate;
     currentYCoordinate = startYCoordinate;
+    this.board = board;
   }//Piece Constructor
 
   //accessor method for TEAM
@@ -66,4 +69,9 @@ public abstract class Piece
   public abstract boolean isValidMove(int xDestination, int yDestination);
 
   public abstract String toString();
+
+  public Board getBoard()
+  {
+    return board;
+  }
 }//Piece Class
