@@ -85,7 +85,7 @@ public class Bishop extends Piece
     }//else if
 
     //x decreases and y increases v/
-    else
+    else if(destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate > getCurrentYCoordinate())
     {
       int column = getCurrentYCoordinate() + 1;
       for (int row = getCurrentXCoordinate() - 1; row > destinationXCoordinate; row--, column++)
@@ -97,7 +97,9 @@ public class Bishop extends Piece
       }//for
       return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
-
+    else
+    {
+      return false;
+    }
   }//isValidMove method
 }//Bishop Class
