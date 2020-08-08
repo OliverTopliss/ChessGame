@@ -54,7 +54,7 @@ class KingTest
         pawnBlockingKing.move(4, 2);
 
         kingToMove.move(4, 1);
-        assertEquals("?", board.getPiece(4, 1).toString());
+        assertFalse(kingToMove.isValidMove(4, 1));
     }
 
     @Test
@@ -67,7 +67,7 @@ class KingTest
         pawnBlockingKing.move(3, 5);
 
         kingToMove.move(3, 6);
-        assertEquals("?", board.getPiece(3, 6).toString());
+        assertFalse(kingToMove.isValidMove(3, 6));
     }
 
     @Test
@@ -81,7 +81,7 @@ class KingTest
         pawnBlockingQueen.move(4, 5);
         queenEastOfKing.move(4, 6);
         kingToMove.move(4, 7);
-        assertEquals("?", board.getPiece(4, 7).toString());
+        assertFalse(kingToMove.isValidMove(4, 7));
     }
 
     @Test
@@ -95,7 +95,7 @@ class KingTest
         pawnBlockingKing.move(3, 5);
         bishopWestOfKing.move(3, 6);
         kingToMove.move(2, 7);
-        assertEquals("?", board.getPiece(2, 7).toString());
+        assertFalse(kingToMove.isValidMove(2, 7));
     }
 
     @Test
@@ -107,7 +107,7 @@ class KingTest
 
         pawnBlockingBishop.move(5, 2);
         kingToMove.move(5, 1);
-        assertEquals("?", board.getPiece(5, 1).toString());
+        assertFalse(kingToMove.isValidMove(5, 1));
     }
 
     @Test
@@ -119,7 +119,7 @@ class KingTest
 
         pawnBlockingQueen.move(3, 2);
         kingToMove.move(3, 1);
-        assertEquals("?", board.getPiece(3, 1).toString());
+        assertFalse(kingToMove.isValidMove(3, 1));
     }
 
     @Test
@@ -131,7 +131,7 @@ class KingTest
 
         pawnBlockingBishop.move(2, 5);
         kingToMove.move(2, 6);
-        assertEquals("?", board.getPiece(2, 6).toString());
+        assertFalse(kingToMove.isValidMove(2, 6));
     }
 
     @Test
@@ -143,6 +143,6 @@ class KingTest
 
         pawnBlockingQueen.move(4, 5);
         kingToMove.move(4, 6);
-        assertEquals("?", board.getPiece(4, 6).toString());
+        assertFalse(kingToMove.isValidMove(4, 6));
     }
 }
