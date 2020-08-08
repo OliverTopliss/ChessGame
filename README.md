@@ -8,3 +8,7 @@ What I've learnt so far:
   - Experience in creating larger scale programmes
   
   - Further experience with GUIs and Object Oriented Programming
+  
+  - Further Experience in writing tests and analysing code coverage
+  
+ 
