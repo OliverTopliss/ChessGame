@@ -102,6 +102,12 @@ public class King extends Piece
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //a kings move is only valid if it will take a piece or will move to a null place
-    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate)) && !isMoveTooFar(destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
+
+  private boolean isMoveTooFar(int xDestination, int yDestination)
+  {
+    return (Math.abs(xDestination - getCurrentXCoordinate()) >= 2)
+            || (Math.abs(yDestination - getCurrentYCoordinate()) >= 2);
+  }
 }//King Class
