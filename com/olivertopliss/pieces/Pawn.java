@@ -62,6 +62,12 @@ public class Pawn extends Piece
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //a move is only valid for a pawn if the pawn will move to a null place or will take a piece
-    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))  && !isMoveSideways( destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
+
+  private boolean isMoveSideways(int xDestination, int yDestination)
+  {
+    return (getCurrentYCoordinate() - yDestination) == 0;
+  }
 }//Pawn Class
+

@@ -22,20 +22,57 @@ class BishopTest
 
         pawnBlockingBishop.move(1, 2);
 
-        assertEquals(board.getPiece(1, 2).toString(), "%");
-
         bishopToMove.move(1, 1);
         assertEquals(board.getPiece(1,1).toString(), "o");
     }
 
     @Test
-    void isValidMoveForwardLeftDiagonalTest()
+    void isValidMoveSouthWestDiagonalTest()
     {
         board.initialise();
         Bishop bishopToMove = (Bishop) board.getPiece(2, 0);
         Pawn pawnBlockingBishop = (Pawn) board.getPiece(1, 1);
         pawnBlockingBishop.move(1, 2);
         assertTrue(bishopToMove.isValidMove(1,1));
+    }
+
+    @Test
+    void isValidMoveSouthEastDiagonalTest()
+    {
+        board.initialise();
+        Bishop bishopToMove = (Bishop) board.getPiece(2, 0);
+        Pawn pawnBlockingBishop = (Pawn) board.getPiece(3, 1);
+        pawnBlockingBishop.move(3, 2);
+        assertTrue(bishopToMove.isValidMove(3,1));
+    }
+
+    @Test
+    void isValidMoveNorthWestDiagonalTest()
+    {
+        board.initialise();
+        Bishop bishopToMove = (Bishop) board.getPiece(2, 7);
+        Pawn pawnBlockingBishop = (Pawn) board.getPiece(1, 6);
+        pawnBlockingBishop.move(1, 5);
+        assertTrue(bishopToMove.isValidMove(1,6));
+    }
+
+    @Test
+    void isValidMoveNorthEastDiagonalTest()
+    {
+        board.initialise();
+        Bishop bishopToMove = (Bishop) board.getPiece(2, 7);
+        Pawn pawnBlockingBishop = (Pawn) board.getPiece(3, 6);
+        pawnBlockingBishop.move(3, 5);
+        assertTrue(bishopToMove.isValidMove(3,6));
+    }
+
+    @Test
+    void isValidMoveBlockedDiagonalTest()
+    {
+        board.initialise();
+        Bishop bishopToMove = (Bishop) board.getPiece(2, 7);
+        Pawn pawnBlockingBishop = (Pawn) board.getPiece(3, 6);
+        assertFalse(bishopToMove.isValidMove(3,6));
     }
 
     @Test
