@@ -48,7 +48,7 @@ public abstract class Piece
   //method that checks whether 2 pieces are on the same team or not
   public boolean isPlayersTeam(Piece otherPiece)
   {
-    return TEAM == otherPiece.getTeam();
+    return TEAM.equals(otherPiece.getTeam());
   }//isPlayersTeam Method
 
   //method which determines whether the piece that is being moved will take a piece of another colour
