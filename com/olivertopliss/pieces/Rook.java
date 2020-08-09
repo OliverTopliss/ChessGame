@@ -23,12 +23,12 @@ public class Rook extends Piece
        && validMove)
     {
       //clears the rook current position
-      Game.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+      getBoard().setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
       //updates the rook coordinates
       setCurrentXCoordinate(xDestination);
       setCurrentYCoordinate(yDestination);
       //moves the rook to the new  location
-      Game.setBoard(xDestination, yDestination, this);
+      getBoard().setBoard(xDestination, yDestination, this);
       System.out.println("That move was valid");
     }//if
     else
