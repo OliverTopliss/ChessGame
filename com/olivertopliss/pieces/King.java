@@ -72,25 +72,85 @@ public class King extends Piece
 
   }//isInCheck Method
 
-  //method which determines if the king is in check mate
-//  public void isInCheckMate()
-//  {
-//    int currentXCoordinate = getCurrentXCoordinate();
-//    int currentYCoordinate = getCurrentYCoordinate();
-//
-//    Set<String> setOfWhiteCheckPositions = Game.getSetOfWhiteCheckPositions();
-//    Set<String> setOfBlackCheckPositions = Game.getSetOfBlackCheckPositions();
-//
-//    if(getTeam() == "Black" && setOfBlackCheckPositions.contains(currentXCoordinate + "," + currentYCoordinate))
-//    {
-//      System.out.println("Black is in Check (set)");
-//    }//if
-//    else if(getTeam() == "White" && setOfWhiteCheckPositions.contains(currentXCoordinate + "," + currentYCoordinate))
-//    {
-//      System.out.println("White is in Check (set)");
-//    }//else if
-//
-//  }//isInCheckMate
+  //method which determines if the king will be in check if moved
+  private boolean willBeInCheck(int xCoordinateToCheck, int yCoordinateToCheck)
+  {
+    Set<String> setOfWhiteCheckPositions = Game.getSetOfWhiteCheckPositions();
+    Set<String> setOfBlackCheckPositions = Game.getSetOfBlackCheckPositions();
+
+    if(getTeam().equals("Black") && setOfBlackCheckPositions.contains(xCoordinateToCheck + "," + yCoordinateToCheck))
+    {
+      System.out.println("Black will be in Check (set)");
+    }//if
+    else if(getTeam().equals("White") && setOfWhiteCheckPositions.contains(xCoordinateToCheck + "," + yCoordinateToCheck))
+    {
+      System.out.println("White will be in Check (set)");
+    }//else if
+    return false;
+  }//willBeInCheck
+
+  private boolean canCheckBeBlocked(int xCoordinateOfCheckingPiece, int yCoordinateOfCheckingPiece)
+  {
+    int xDisplacementBetweenKingAndPiece = Math.abs(getCurrentXCoordinate() - xCoordinateOfCheckingPiece);
+    int yDisplacementBetweenKingAndPiece = Math.abs(getCurrentYCoordinate() - yCoordinateOfCheckingPiece);
+
+    //vertical check path
+    if(xDisplacementBetweenKingAndPiece == 0)
+    {
+      checkForVerticalBlock(xCoordinateOfCheckingPiece);
+    }
+    //horizontal check path
+    else if(yDisplacementBetweenKingAndPiece == 0)
+    {
+      checkForHorizontalBlock(yCoordinateOfCheckingPiece);
+    }
+    //diagonal check path
+    else
+    {
+      checkForDiagonalBlock(xCoordinateOfCheckingPiece, yCoordinateOfCheckingPiece);
+    }
+    return false;
+  }
+
+
+  private boolean checkForVerticalBlock(int xCoorindateOfPath)
+  {
+    if(getTeam().equals("Black"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    else if(getTeam().equals("White"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    return false;
+  }
+
+  private boolean checkForHorizontalBlock(int yCoorindateOfPath)
+  {
+    if(getTeam().equals("Black"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    else if(getTeam().equals("White"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    return false;
+  }
+
+  private boolean checkForDiagonalBlock(int xCoorindateOfPath, int yCoorindateOfPath)
+  {
+    if(getTeam().equals("Black"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    else if(getTeam().equals("White"))
+    {
+      return false; //check if any pieces in the team can move to anywhere on this line.
+    }
+    return false;
+  }
 
 //  public void checkSafety()
 //  {
