@@ -89,67 +89,138 @@ public class King extends Piece
     return false;
   }//willBeInCheck
 
+  private boolean canCheckingPieceBeTaken(int xCoordinateOfCheckingPiece, int yCoordinateOfCheckingPiece)
+  {
+      boolean checkingPieceCanBeTaken = false;
+      for(int x = 0; x < 8; x++)
+      {
+          for(int y = 0; y < 8; y++)
+          {
+              Piece currentPiece = getBoard().getPiece(x, y);
+              if(currentPiece != null && !currentPiece.getTeam().equals(getTeam()))
+              {
+                  checkingPieceCanBeTaken = currentPiece.willTakePiece(getBoard().getPiece(xCoordinateOfCheckingPiece, yCoordinateOfCheckingPiece));
+              }
+          }
+      }
+      return checkingPieceCanBeTaken;
+  }
+
   private boolean canCheckBeBlocked(int xCoordinateOfCheckingPiece, int yCoordinateOfCheckingPiece)
   {
-    int xDisplacementBetweenKingAndPiece = Math.abs(getCurrentXCoordinate() - xCoordinateOfCheckingPiece);
-    int yDisplacementBetweenKingAndPiece = Math.abs(getCurrentYCoordinate() - yCoordinateOfCheckingPiece);
+      //keep polarity to determine the path direction to check
+    int xDisplacementBetweenKingAndPiece = getCurrentXCoordinate() - xCoordinateOfCheckingPiece;
+    int yDisplacementBetweenKingAndPiece = getCurrentYCoordinate() - yCoordinateOfCheckingPiece;
 
     //vertical check path
+    boolean canBeBlocked = false;
     if(xDisplacementBetweenKingAndPiece == 0)
     {
-      checkForVerticalBlock(xCoordinateOfCheckingPiece);
+        canBeBlocked = checkForVerticalBlock(xCoordinateOfCheckingPiece, yDisplacementBetweenKingAndPiece);
     }
     //horizontal check path
     else if(yDisplacementBetweenKingAndPiece == 0)
     {
-      checkForHorizontalBlock(yCoordinateOfCheckingPiece);
+        canBeBlocked = checkForHorizontalBlock(yCoordinateOfCheckingPiece, xDisplacementBetweenKingAndPiece);
     }
     //diagonal check path
-    else
+    else if(Math.abs(xDisplacementBetweenKingAndPiece) == Math.abs(yDisplacementBetweenKingAndPiece))
     {
-      checkForDiagonalBlock(xCoordinateOfCheckingPiece, yCoordinateOfCheckingPiece);
+        canBeBlocked = checkForDiagonalBlock(xCoordinateOfCheckingPiece, yCoordinateOfCheckingPiece, xDisplacementBetweenKingAndPiece, yDisplacementBetweenKingAndPiece);
     }
-    return false;
+    return canBeBlocked;
   }
 
 
-  private boolean checkForVerticalBlock(int xCoorindateOfPath)
+  private boolean checkForVerticalBlock(int xCoordinateOfPath, int yDisplacement)
   {
-    if(getTeam().equals("Black"))
-    {
-      return false; //check if any pieces in the team can move to anywhere on this line.
-    }
-    else if(getTeam().equals("White"))
-    {
-      return false; //check if any pieces in the team can move to anywhere on this line.
-    }
-    return false;
+      boolean canBlockCheck = false;
+      //determine the direction to traverse the path
+      int direction = yDisplacement / Math.abs(yDisplacement);
+
+      for(int x = 0; x < 8; x++)
+      {
+          for(int y = 0; y < 8; y++)
+          {
+              Piece currentPiece = getBoard().getPiece(x, y);
+              if(currentPiece != null && !currentPiece.getTeam().equals(getTeam()))
+              {
+                  int yCoordinateOnPath = getCurrentYCoordinate();
+                  //traverse the path in the appropriate direction
+                  while(yCoordinateOnPath != getCurrentYCoordinate() + yDisplacement)
+                  {
+                      if(currentPiece.isValidMove(xCoordinateOfPath, yCoordinateOnPath))
+                      {
+                          canBlockCheck = true;
+                      }
+                      yCoordinateOnPath += direction;
+                  }
+              }
+          }
+      }
+      return canBlockCheck; //check if any pieces in the team can move to anywhere on this line.
   }
 
-  private boolean checkForHorizontalBlock(int yCoorindateOfPath)
+  private boolean checkForHorizontalBlock(int yCoordinateOfPath, int xDisplacement)
   {
-    if(getTeam().equals("Black"))
-    {
-      return false; //check if any pieces in the team can move to anywhere on this line.
-    }
-    else if(getTeam().equals("White"))
-    {
-      return false; //check if any pieces in the team can move to anywhere on this line.
-    }
-    return false;
+      boolean canBlockCheck = false;
+      //determine the direction to traverse the path
+      int direction = xDisplacement / Math.abs(xDisplacement);
+
+      for(int x = 0; x < 8; x++)
+      {
+          for(int y = 0; y < 8; y++)
+          {
+              Piece currentPiece = getBoard().getPiece(x, y);
+              if(currentPiece != null && !currentPiece.getTeam().equals(getTeam()))
+              {
+                  int xCoordinateOnPath = getCurrentXCoordinate();
+                  //traverse the path in the appropriate direction
+                  while(xCoordinateOnPath != getCurrentXCoordinate() + xDisplacement)
+                  {
+                      if(currentPiece.isValidMove(xCoordinateOnPath, yCoordinateOfPath))
+                      {
+                          canBlockCheck = true;
+                      }
+                      xCoordinateOnPath += direction;
+                  }
+              }
+          }
+      }
+      return canBlockCheck; //check if any pieces in the team can move to anywhere on this line.
   }
 
-  private boolean checkForDiagonalBlock(int xCoorindateOfPath, int yCoorindateOfPath)
+  private boolean checkForDiagonalBlock(int xCoordinateOfPath, int yCoordinateOfPath, int xDisplacement, int yDisplacement)
   {
-    if(getTeam().equals("Black"))
+    boolean canBlockCheck = false;
+
+    //determine the direction to traverse the path
+    int xDirection = xDisplacement / Math.abs(xDisplacement);
+    int yDirection = yDisplacement / Math.abs(yDisplacement);
+
+    for(int x = 0; x < 8; x++)
     {
-      return false; //check if any pieces in the team can move to anywhere on this line.
+        for(int y = 0; y < 8; y++)
+        {
+            Piece currentPiece = getBoard().getPiece(x, y);
+            if(currentPiece != null && !currentPiece.getTeam().equals(getTeam()))
+            {
+                //traverse the path in the appropriate direction
+                int xCoordinateOnPath = getCurrentXCoordinate();
+                int yCoordinateOnPath = getCurrentYCoordinate();
+                while(xCoordinateOnPath != getCurrentXCoordinate() + xDisplacement && yCoordinateOnPath != getCurrentYCoordinate() + yDisplacement)
+                {
+                    if(currentPiece.isValidMove(xCoordinateOnPath, yCoordinateOnPath))
+                    {
+                        canBlockCheck = true;
+                    }
+                    xCoordinateOnPath += xDirection;
+                    yCoordinateOnPath += yDirection;
+                }
+            }
+        }
     }
-    else if(getTeam().equals("White"))
-    {
-      return false; //check if any pieces in the team can move to anywhere on this line.
-    }
-    return false;
+    return canBlockCheck; //check if any pieces in the team can move to anywhere on this line.
   }
 
 //  public void checkSafety()
@@ -162,7 +233,8 @@ public class King extends Piece
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
     //a kings move is only valid if it will take a piece or will move to a null place
-    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate)) && !isMoveTooFar(destinationXCoordinate, destinationYCoordinate);
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))
+            && !isMoveTooFar(destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
 
   private boolean isMoveTooFar(int xDestination, int yDestination)
