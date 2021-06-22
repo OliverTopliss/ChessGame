@@ -23,3 +23,5 @@ What I've learnt so far:
       
     - Single player mode against bots of varying difficulty
  
+Trello:
+https://trello.com/b/nDUmiKFg/chess-game
