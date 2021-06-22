@@ -16,6 +16,10 @@ What I've learnt so far:
   Planned Features:
   
     - Network-based gameplay (Multiplayer)
+      - Possibly use a NodeJS or Python server
+      
     - Cross-platform clients (Java Client & Web client)
+      - Web client would be written in JavaScript and possibly React.
+      
     - Single player mode against bots of varying difficulty
  
