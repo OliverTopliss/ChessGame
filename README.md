@@ -11,4 +11,11 @@ What I've learnt so far:
   
   - Further Experience in writing tests and analysing code coverage
   
+  
+  
+  Planned Features:
+  
+    - Network-based gameplay (Multiplayer)
+    - Cross-platform clients (Java Client & Web client)
+    - Single player mode against bots of varying difficulty
  
