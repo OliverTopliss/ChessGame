@@ -272,10 +272,17 @@ public class Game extends JFrame implements ActionListener
 
           board.getBoard(pieceToMoveXCoordinate, pieceToMoveYCoordinate).move(destinationXCoordinate, destinationYCoordinate);
 
-          King whiteKing = board.getWhiteKing();
-          whiteKing.isInCheck();
 
-          board.getBlackKing().isInCheck();
+          if(board.getWhiteKing().isInCheck())
+          {
+            System.out.println("White is in Check (set)");
+          }
+          else if(board.getBlackKing().isInCheck())
+          {
+            System.out.println("Black is in Check (set)");
+          }
+
+
 
         }//if
       }//if

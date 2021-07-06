@@ -226,8 +226,9 @@ public class Board
 //    {
       boardCopy = new Board();
       boardCopy.initialise(this);
-      boardCopy.setOfBlackCheckPositions = setOfBlackCheckPositions;
-      boardCopy.setOfWhiteCheckPositions = setOfWhiteCheckPositions;
+      // copy the current check positions to the simulated board
+      boardCopy.setOfBlackCheckPositions.addAll(setOfBlackCheckPositions);
+      boardCopy.setOfWhiteCheckPositions.addAll(setOfWhiteCheckPositions);
 //    }
     return boardCopy;
   }

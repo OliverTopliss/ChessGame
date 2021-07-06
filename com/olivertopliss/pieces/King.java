@@ -69,12 +69,12 @@ public class King extends Piece
 
     if(getTeam().equals("Black") && setOfWhiteCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
     {
-      System.out.println("Black is in Check (set)");
+      //System.out.println("Black is in Check (set)");
       return true;
     }//if
     else if(getTeam().equals("White") && setOfBlackCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
     {
-      System.out.println("White is in Check (set)");
+      //System.out.println("White is in Check (set)");
       return true;
     }//else if
     return false;

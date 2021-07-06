@@ -96,13 +96,13 @@ public abstract class Piece
       {
         System.out.println("White King Coords: " + boardCopy.getWhiteKing().getCurrentXCoordinate() + boardCopy.getWhiteKing().getCurrentYCoordinate());
         checksOwnPiece = boardCopy.getWhiteKing().isInCheck();
-        System.out.println(checksOwnPiece);
+        System.out.println("Induces self check: " + checksOwnPiece);
       }
       else if(getTeam().equals("Black"))
       {
         System.out.println("Black King Coords: " + boardCopy.getBlackKing().getCurrentXCoordinate() + boardCopy.getBlackKing().getCurrentYCoordinate());
         checksOwnPiece = boardCopy.getBlackKing().isInCheck();
-        System.out.println(checksOwnPiece);
+        System.out.println("Induces self check: " + checksOwnPiece);
       }
     }
     catch (NullPointerException exception)
