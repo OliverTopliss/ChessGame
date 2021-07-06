@@ -30,6 +30,7 @@ public class Rook extends Piece
       //moves the rook to the new  location
       getBoard().setBoard(xDestination, yDestination, this);
       System.out.println("That move was valid");
+      getBoard().updateCheckPositions();
     }//if
     else
     {
@@ -61,9 +62,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
     //checks the negative horizontal motion
     else if(destinationXCoordinate < getCurrentXCoordinate() && destinationYCoordinate == getCurrentYCoordinate())
     {
@@ -76,9 +75,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
     //checks the potitive vertical motion
     else if(destinationYCoordinate > getCurrentYCoordinate() && destinationXCoordinate == getCurrentXCoordinate())
     {
@@ -91,9 +88,7 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
     //checks the negative vertical motion
     else
     {
@@ -106,7 +101,9 @@ public class Rook extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
+
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))
+            && !checksOwnPiece(destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
 }//Rook

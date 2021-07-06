@@ -74,4 +74,42 @@ public abstract class Piece
   {
     return board;
   }
+
+  //makes a move on a copy of the board
+  private void simulateMove(Board boardCopy, int xDestination, int yDestination)
+  {
+    boardCopy.setBoard(xDestination, yDestination, boardCopy.getPiece(getCurrentXCoordinate(), getCurrentYCoordinate()));
+    boardCopy.setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
+    boardCopy.updateCheckPositions();
+  }
+  //checks whether a move would cause check on its own piece.
+  public boolean checksOwnPiece(int xDestination, int yDestination)
+  {
+    System.out.println("checking for self check");
+    boolean checksOwnPiece = false;
+    try
+    {
+      Board boardCopy = (Board) getBoard().clone();
+      simulateMove(boardCopy, xDestination, yDestination);
+
+      if(getTeam().equals("White"))
+      {
+        System.out.println("White King Coords: " + boardCopy.getWhiteKing().getCurrentXCoordinate() + boardCopy.getWhiteKing().getCurrentYCoordinate());
+        checksOwnPiece = boardCopy.getWhiteKing().isInCheck();
+        System.out.println(checksOwnPiece);
+      }
+      else if(getTeam().equals("Black"))
+      {
+        System.out.println("Black King Coords: " + boardCopy.getBlackKing().getCurrentXCoordinate() + boardCopy.getBlackKing().getCurrentYCoordinate());
+        checksOwnPiece = boardCopy.getBlackKing().isInCheck();
+        System.out.println(checksOwnPiece);
+      }
+    }
+    catch (NullPointerException exception)
+    {
+      System.out.println("Board doesn't exist");
+      System.out.println(exception.getMessage());
+    }
+    return checksOwnPiece;
+  }
 }//Piece Class

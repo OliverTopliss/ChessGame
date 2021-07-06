@@ -28,6 +28,7 @@ public class Queen extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the queen to the new  location
       getBoard().setBoard(xDestination, yDestination, this);
+      getBoard().updateCheckPositions();
     }//if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -59,7 +60,6 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -73,7 +73,6 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -87,7 +86,6 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -101,9 +99,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
     //checks if the horizontal and vertical motion
     //this check must come after the diagonal check for the boolean expressions to be evaluated in the correct order
 
@@ -118,7 +114,6 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the negative horizontal motion
@@ -133,7 +128,6 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //checks the potitive vertical motion
@@ -148,9 +142,7 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-
     //checks the negative vertical motion
     else
     {
@@ -163,7 +155,9 @@ public class Queen extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
-    }//else if
+    }//else
+    System.out.println("kdhgfkiuerg");
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))
+            && !checksOwnPiece(destinationXCoordinate, destinationYCoordinate);
   }//isNotBlockedMove method
 }//Queen Class

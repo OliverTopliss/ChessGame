@@ -38,6 +38,7 @@ public class King extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
       getBoard().setBoard(xDestination, yDestination, this);
+      getBoard().updateCheckPositions();
     }// if
     else
     {
@@ -53,30 +54,37 @@ public class King extends Piece
 
 
   //method which determines if a king is in check
-  public void isInCheck()
+  public boolean isInCheck()
   {
     int currentXCoordinate = getCurrentXCoordinate();
     int currentYCoordinate = getCurrentYCoordinate();
 
-    Set<String> setOfWhiteCheckPositions = Game.getSetOfWhiteCheckPositions();
-    Set<String> setOfBlackCheckPositions = Game.getSetOfBlackCheckPositions();
+    Set<String> setOfWhiteCheckPositions = getBoard().getSetOfWhiteCheckPositions();
+    Set<String> setOfBlackCheckPositions = getBoard().getSetOfBlackCheckPositions();
 
-    if(getTeam().equals("Black") && setOfBlackCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
+//    System.out.println("----------------------");
+//    System.out.println(setOfWhiteCheckPositions);
+//    System.out.println(setOfBlackCheckPositions);
+//    System.out.println("----------------------");
+
+    if(getTeam().equals("Black") && setOfWhiteCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
     {
       System.out.println("Black is in Check (set)");
+      return true;
     }//if
-    else if(getTeam().equals("White") && setOfWhiteCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
+    else if(getTeam().equals("White") && setOfBlackCheckPositions.contains("(" + currentXCoordinate + "," + currentYCoordinate + ")"))
     {
       System.out.println("White is in Check (set)");
+      return true;
     }//else if
-
+    return false;
   }//isInCheck Method
 
   //method which determines if the king will be in check if moved
   private boolean willBeInCheck(int xCoordinateToCheck, int yCoordinateToCheck)
   {
-    Set<String> setOfWhiteCheckPositions = Game.getSetOfWhiteCheckPositions();
-    Set<String> setOfBlackCheckPositions = Game.getSetOfBlackCheckPositions();
+    Set<String> setOfWhiteCheckPositions = getBoard().getSetOfWhiteCheckPositions();
+    Set<String> setOfBlackCheckPositions = getBoard().getSetOfBlackCheckPositions();
 
     if(getTeam().equals("Black") && setOfBlackCheckPositions.contains(xCoordinateToCheck + "," + yCoordinateToCheck))
     {

@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,11 +37,8 @@ public class Game extends JFrame implements ActionListener
 //  private int blackKingXCoordinate = 0;
 //  private int blackKingYCoordinate = 0;
 
-  private static Set<String> setOfWhiteCheckPositions = new TreeSet<String>();
-  private static Set<String> setOfBlackCheckPositions = new TreeSet<String>();
 
-
-  //creates a gui for the coordinates of pieces/destination to be input
+    //creates a gui for the coordinates of pieces/destination to be input
   private JTextField inputStartCoords = new JTextField("Input piece to move here");
   private JTextField inputDestinationCoords = new JTextField("Input destination here");
   private Container contents = getContentPane();
@@ -176,7 +172,7 @@ public class Game extends JFrame implements ActionListener
   {
     board.initialise();
     updateBoardGUI();
-    updateCheckPositions();
+//    updateCheckPositions();
 //    System.out.println("White " + setOfWhiteCheckPositions);
 //    System.out.println("Black " + setOfBlackCheckPositions);
   }// initialise method
@@ -318,7 +314,7 @@ public class Game extends JFrame implements ActionListener
     {
       System.out.println("Not your turn yet!");
     }//else
-    updateCheckPositions();
+//    updateCheckPositions();
 
   }//actionPerformed
 
@@ -378,197 +374,18 @@ public class Game extends JFrame implements ActionListener
 //    return turn;
 //  }//getTurn
 
-  private void updateCheckPositions()
-  {
-    setOfBlackCheckPositions.clear();
-    setOfWhiteCheckPositions.clear();
-
-    //loops thorugh every position on the board
-    for(int row = 0; row <= 7; row++)
-    {
-      for(int column = 0; column <= 7; column++)
-      {
-        //checks the colour of the piece so it is added to the correct set
-        if(board.getPiece(row, column) != null && board.getPiece(row, column).getTeam().equals("Black"))
-        {
-          if(board.getPiece(row, column) instanceof Pawn)
-          {
-            //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
-            setOfBlackCheckPositions.add("(" + (row - 1) + "," + (column - 1) + ")");
-            setOfBlackCheckPositions.add("(" + (row + 1) + "," + (column - 1) + ")");
-          }//if
-
-          else if(board.getPiece(row, column) instanceof Rook)
-          {
-            addVerticalAndHrizontalCheckPositions(setOfBlackCheckPositions, row, column);
-          }//else if
-
-          else if(board.getPiece(row, column) instanceof Queen)
-          {
-            addVerticalAndHrizontalCheckPositions(setOfBlackCheckPositions, row, column);
-            addDiagonalCheckPositions(setOfBlackCheckPositions, row, column);
-          }//else if
-          else if(board.getPiece(row, column) instanceof Bishop)
-          {
-            addDiagonalCheckPositions(setOfBlackCheckPositions, row, column);
-          }//elseif
-          else if(board.getPiece(row, column) instanceof Knight)
-          {
-            addKnightCheckPositions(setOfBlackCheckPositions, row, column);
-          }//else if
-        }//if
-
-        else if(board.getPiece(row, column) != null && board.getPiece(row, column).getTeam().equals("White"))
-        {
-          if(board.getPiece(row, column) instanceof Pawn)
-          {
-            //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
-            setOfWhiteCheckPositions.add("(" + (row - 1) + "," + (column + 1) + ")");
-            setOfWhiteCheckPositions.add("(" + (row + 1) + "," + (column + 1) + ")");
-          }//if
-
-          else if(board.getPiece(row, column) instanceof Rook)
-          {
-            addVerticalAndHrizontalCheckPositions(setOfWhiteCheckPositions, row, column);
-          }//else if
-
-          else if(board.getPiece(row, column) instanceof Queen)
-          {
-            addVerticalAndHrizontalCheckPositions(setOfWhiteCheckPositions, row, column);
-            addDiagonalCheckPositions(setOfWhiteCheckPositions, row, column);
-          }//else if
-          else if(board.getPiece(row, column) instanceof Bishop)
-          {
-            addDiagonalCheckPositions(setOfWhiteCheckPositions, row, column);
-          }//elseif
-          else if(board.getPiece(row, column) instanceof Knight)
-          {
-            addKnightCheckPositions(setOfWhiteCheckPositions, row, column);
-          }//else if
-        }//if
-      }//for
-    }//for
-  }//updateCheckPositions
-
-  private void addVerticalAndHrizontalCheckPositions(Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
-  {
-    int pieceRow = rowToStartAt;
-    int pieceColumn = columnToStartAt;
-    //can't start at (row, column) because the current piece is never null
-    while(board.getPiece(pieceRow + 1, pieceColumn) == null && pieceRow + 1 <= 7)
-    {
-      //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
-      setToAppend.add("(" + (pieceRow + 1) + "," + pieceColumn + ")");
-      pieceRow++;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow, pieceColumn + 1) == null && pieceColumn + 1 <= 7)
-    {
-      setToAppend.add("(" + pieceRow + "," + (pieceColumn + 1) + ")");
-      pieceColumn++;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow - 1, pieceColumn) == null && pieceRow - 1 >= 0)
-    {
-      setToAppend.add("(" + (pieceRow - 1) + "," + pieceColumn + ")");
-      pieceRow--;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow, pieceColumn - 1) == null && pieceColumn - 1 >= 0)
-    {
-      setToAppend.add("(" + pieceRow + "," + (pieceColumn - 1) + ")");
-      pieceColumn--;
-    }//while
-//    System.out.println("Black(v/h) " + setOfBlackCheckPositions);
-//    System.out.println();
-//    System.out.println("White(v/h) " + setOfWhiteCheckPositions);
-//    System.out.println();
-  }//addVerticalAndHorizontalCheckPositions
-
-  private void addDiagonalCheckPositions(Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
-  {
-    int pieceRow = rowToStartAt;
-    int pieceColumn = columnToStartAt;
-    //can't start at (row, column) because the current piece is never null
-    while(board.getPiece(pieceRow + 1, pieceColumn + 1) == null && (pieceRow + 1 <= 7 && pieceColumn + 1 <= 7))
-    {
-      //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
-      setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn + 1) + ")");
-      pieceRow++;
-      pieceColumn++;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow - 1, pieceColumn + 1) == null && (pieceRow - 1 >= 0 && pieceColumn + 1 <= 7))
-    {
-      setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn + 1) + ")");
-      pieceRow--;
-      pieceColumn++;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow - 1, pieceColumn - 1) == null && (pieceRow - 1 >= 0 && pieceColumn - 1 >= 0))
-    {
-      setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn - 1) + ")");
-      pieceRow--;
-      pieceColumn--;
-    }//while
-
-    pieceRow = rowToStartAt;
-    pieceColumn = columnToStartAt;
-    while(board.getPiece(pieceRow + 1, pieceColumn - 1) == null && (pieceRow + 1 <= 7 && pieceColumn - 1 >= 0))
-    {
-      setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn - 1) + ")");
-      pieceRow++;
-      pieceColumn--;
-    }//
-//    System.out.println("Black(d) " + setOfBlackCheckPositions);
-//    System.out.println();
-//    System.out.println("White(d) " + setOfWhiteCheckPositions);
-//    System.out.println();
-  }//addDiagonalCheckPositions
-
-  private void addKnightCheckPositions(Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
-  {
-    int pieceRow = rowToStartAt;
-    int pieceColumn = columnToStartAt;
-    //can't start at (row, column) because the current piece is never null
-
-    setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn + 2) + ")");
-    setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn + 2) + ")");
-    setToAppend.add("(" + (pieceRow + 2) + "," + (pieceColumn + 1) + ")");
-    setToAppend.add("(" + (pieceRow + 2) + "," + (pieceColumn - 1) + ")");
-    setToAppend.add("(" + (pieceRow - 2) + "," + (pieceColumn + 1) + ")");
-    setToAppend.add("(" + (pieceRow - 2) + "," + (pieceColumn - 1) + ")");
-    setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn - 2) + ")");
-    setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn - 2) + ")");
-
-//    System.out.println("Black(k) " + setOfBlackCheckPositions);
-//    System.out.println();
-//    System.out.println("White(k) " + setOfWhiteCheckPositions);
-//    System.out.println();
-  }//addDiagonalCheckPositions
-
   public static Set<String> getSetOfWhiteCheckPositions()
   {
 //    System.out.println("Caused by White: " + setOfWhiteCheckPositions);
 //    System.out.println();
-    return setOfWhiteCheckPositions;
+    return board.setOfWhiteCheckPositions;
   }//getSetOfWhiteCheckPositions
 
   public static Set<String> getSetOfBlackCheckPositions()
   {
 //    System.out.println();
 //    System.out.println("Caused by Black: " + setOfBlackCheckPositions);
-    return setOfBlackCheckPositions;
+    return board.setOfBlackCheckPositions;
   }//getSetOfBlackCheckPositions
 
   public Board getBoard()

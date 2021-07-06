@@ -27,6 +27,7 @@ public class Knight extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new  location
       getBoard().setBoard(xDestination, yDestination, this);
+      getBoard().updateCheckPositions();
     }//if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -41,6 +42,7 @@ public class Knight extends Piece
   @Override
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
-    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))
+            && !checksOwnPiece(destinationXCoordinate, destinationYCoordinate);
   }
 }//Piece

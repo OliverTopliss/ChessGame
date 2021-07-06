@@ -24,6 +24,7 @@ public class Bishop extends Piece
       setCurrentYCoordinate(yDestination);
       //moves the bishop to the new location
       getBoard().setBoard(xDestination, yDestination, this);
+      getBoard().updateCheckPositions();
     }// if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -53,7 +54,6 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//if
 
     //both x and y are decreasing ^\
@@ -67,7 +67,6 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x increases and y decreases /^
@@ -81,7 +80,6 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
 
     //x decreases and y increases v/
@@ -95,11 +93,14 @@ public class Bishop extends Piece
           return false;
         }//if
       }//for
-      return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate));
     }//else if
-    else
+
+    if(destinationXCoordinate == getCurrentXCoordinate() || destinationXCoordinate == getCurrentYCoordinate())
     {
+      //stationary or cardinal motion tso invalid
       return false;
     }
+
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate)) && !checksOwnPiece(destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
 }//Bishop Class

@@ -1,7 +1,28 @@
 package com.olivertopliss.game;
 import com.olivertopliss.pieces.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class Board
 {
+  public Set<String> setOfWhiteCheckPositions = new TreeSet<String>();
+  public Set<String> setOfBlackCheckPositions = new TreeSet<String>();
+
+  public Set<String> getSetOfWhiteCheckPositions()
+  {
+    System.out.println(setOfWhiteCheckPositions);
+    return setOfWhiteCheckPositions;
+  }
+
+  public Set<String> getSetOfBlackCheckPositions()
+  {
+    System.out.println(setOfBlackCheckPositions);
+    return setOfBlackCheckPositions;
+  }
+
   //stores the 2d array of the board
   private Piece[][] board = new Piece[8][8];
 
@@ -64,6 +85,44 @@ public class Board
 
   }// initialise Method
 
+  public void initialise(Board boardToCopy)
+  {
+    for (int column = 0; column < 8; column++)
+    {
+      for(int row = 0; row < 8; row++)
+      {
+        // populates the board array with pawns in their initial positions
+        Piece piece = boardToCopy.getBoard(column,row);
+
+        if(piece instanceof Pawn)
+        {
+          board[row][column] = new Pawn(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+        else if(piece instanceof Rook)
+        {
+          board[row][column] = new Rook(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+        else if(piece instanceof Knight)
+        {
+          board[row][column] = new Knight(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+        else if(piece instanceof Bishop)
+        {
+          board[row][column] = new Bishop(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+        else if(piece instanceof Queen)
+        {
+          board[row][column] = new Queen(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+        else if(piece instanceof King)
+        {
+          board[row][column] = new King(piece.getTeam(), piece.getCurrentXCoordinate(), piece.getCurrentYCoordinate(), this);
+        }
+      }
+    }
+    setWhiteKingCoordinates(boardToCopy.getWhiteKing().getCurrentXCoordinate(), boardToCopy.getWhiteKing().getCurrentYCoordinate());
+    setBlackKingCoordinates(boardToCopy.getBlackKing().getCurrentXCoordinate(), boardToCopy.getBlackKing().getCurrentYCoordinate());
+  }
 //  private void clearPosition(String xCoordinate, int yCoordinate)
 //  {
 //
@@ -81,7 +140,6 @@ public class Board
   public void setBoard(int xCoordinateToSet, int yCoordinateToSet, Piece pieceToSet)
   {
     board[yCoordinateToSet][xCoordinateToSet] = pieceToSet;
-
   }//setBoard
 
   public void setBlackKingCoordinates(int requiredXCoordinate, int requiredYCoordinate)
@@ -153,4 +211,253 @@ public class Board
     }// for
     return boardAsString;
   }// toString
+
+  @Override
+  public Object clone()
+  {
+//    super.clone();
+    Board boardCopy = null;
+
+//    try
+//    {
+//      boardCopy = (Board) super.clone();
+//    }
+//    catch (CloneNotSupportedException e)
+//    {
+      boardCopy = new Board();
+      boardCopy.initialise(this);
+      boardCopy.setOfBlackCheckPositions = setOfBlackCheckPositions;
+      boardCopy.setOfWhiteCheckPositions = setOfWhiteCheckPositions;
+//    }
+    return boardCopy;
+  }
+
+  public Piece[][] copyBoard()
+  {
+      Piece[][] boardCopy = Arrays.copyOf(board, board.length);
+
+      return boardCopy;
+  }
+
+  public void updateCheckPositions()
+  {
+    setOfBlackCheckPositions.clear();
+    setOfWhiteCheckPositions.clear();
+
+    //loops thorugh every position on the board
+    for(int row = 0; row <= 7; row++)
+    {
+      for(int column = 0; column <= 7; column++)
+      {
+        //checks the colour of the piece so it is added to the correct set
+        if(getPiece(row, column) != null && getPiece(row, column).getTeam().equals("Black"))
+        {
+          if(getPiece(row, column) instanceof Pawn)
+          {
+            //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+            //if the piece is not the black king then add the position to the check positions
+            // black kings dont need to be recorded as check positrions because a white king cannot occupy the same position until 2 moves later at the earliest
+            if(!(getPiece(row - 1, column - 1) instanceof King
+                    && getPiece(row - 1, column - 1).getTeam().equals("Black")))
+            {
+              setOfBlackCheckPositions.add("(" + (row - 1) + "," + (column - 1) + ")");
+              setOfBlackCheckPositions.add("(" + (row + 1) + "," + (column - 1) + ")");
+            }
+
+          }//if
+
+          else if(getPiece(row, column) instanceof Rook)
+          {
+            addVerticalAndHrizontalCheckPositions("Black", setOfBlackCheckPositions, row, column);
+          }//else if
+
+          else if(getPiece(row, column) instanceof Queen)
+          {
+            addVerticalAndHrizontalCheckPositions("Black", setOfBlackCheckPositions, row, column);
+            addDiagonalCheckPositions("Black", setOfBlackCheckPositions, row, column);
+          }//else if
+          else if(getPiece(row, column) instanceof Bishop)
+          {
+            addDiagonalCheckPositions("Black", setOfBlackCheckPositions, row, column);
+          }//elseif
+          else if(getPiece(row, column) instanceof Knight)
+          {
+            addKnightCheckPositions("Black", setOfBlackCheckPositions, row, column);
+          }//else if
+        }//if
+
+        else if(getPiece(row, column) != null && getPiece(row, column).getTeam().equals("White"))
+        {
+          if(getPiece(row, column) instanceof Pawn)
+          {
+            //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+            setOfWhiteCheckPositions.add("(" + (row - 1) + "," + (column + 1) + ")");
+            setOfWhiteCheckPositions.add("(" + (row + 1) + "," + (column + 1) + ")");
+          }//if
+
+          else if(getPiece(row, column) instanceof Rook)
+          {
+            addVerticalAndHrizontalCheckPositions("White", setOfWhiteCheckPositions, row, column);
+          }//else if
+
+          else if(getPiece(row, column) instanceof Queen)
+          {
+            addVerticalAndHrizontalCheckPositions("White", setOfWhiteCheckPositions, row, column);
+            addDiagonalCheckPositions("White", setOfWhiteCheckPositions, row, column);
+          }//else if
+          else if(getPiece(row, column) instanceof Bishop)
+          {
+            addDiagonalCheckPositions("White", setOfWhiteCheckPositions, row, column);
+          }//elseif
+          else if(getPiece(row, column) instanceof Knight)
+          {
+            addKnightCheckPositions("White", setOfWhiteCheckPositions, row, column);
+          }//else if
+        }//if
+      }//for
+    }//for
+  }//updateCheckPositions
+
+  private void addVerticalAndHrizontalCheckPositions(String checkingPieceTeam, Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
+  {
+    int pieceRow = rowToStartAt;
+    int pieceColumn = columnToStartAt;
+    //can't start at (row, column) because the current piece is never null
+    do
+    {
+      if(!(getPiece(pieceRow + 1, pieceColumn) instanceof King
+              && getPiece(pieceRow + 1, pieceColumn).getTeam().equals(checkingPieceTeam)))
+      {
+        //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+        setToAppend.add("(" + (pieceRow + 1) + "," + pieceColumn + ")");
+        pieceRow++;
+      }
+    }while((getPiece(pieceRow, pieceColumn) == null) && pieceRow + 1 <= 7);//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow, pieceColumn + 1) instanceof King
+              && getPiece(pieceRow, pieceColumn + 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + pieceRow + "," + (pieceColumn + 1) + ")");
+        pieceColumn++;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && pieceColumn + 1 <= 7);//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow - 1, pieceColumn) instanceof King
+              && getPiece(pieceRow - 1, pieceColumn).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + (pieceRow - 1) + "," + pieceColumn + ")");
+        pieceRow--;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && pieceRow - 1 >= 0);//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow, pieceColumn - 1) instanceof King
+              && getPiece(pieceRow, pieceColumn - 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + pieceRow + "," + (pieceColumn - 1) + ")");
+        pieceColumn--;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && pieceColumn - 1 >= 0);//while
+//    System.out.println("Black(v/h) " + setOfBlackCheckPositions);
+//    System.out.println();
+//    System.out.println("White(v/h) " + setOfWhiteCheckPositions);
+//    System.out.println();
+  }//addVerticalAndHorizontalCheckPositions
+
+  private void addDiagonalCheckPositions(String checkingPieceTeam, Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
+  {
+    int pieceRow = rowToStartAt;
+    int pieceColumn = columnToStartAt;
+    //can't start at (row, column) because the current piece is never null
+    do
+    {
+      //adds the 2 diagonals that a pawn can cause check at to the set (going off the board doesn't matter)
+      if(!(getPiece(pieceRow + 1, pieceColumn + 1) instanceof King
+              && getPiece(pieceRow + 1, pieceColumn + 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn + 1) + ")");
+        pieceRow++;
+        pieceColumn++;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && (pieceRow + 1 <= 7 && pieceColumn + 1 <= 7));//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow - 1, pieceColumn + 1) instanceof King
+              && getPiece(pieceRow - 1, pieceColumn + 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn + 1) + ")");
+        pieceRow--;
+        pieceColumn++;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && (pieceRow - 1 >= 0 && pieceColumn + 1 <= 7));//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow - 1, pieceColumn - 1) instanceof King
+              && getPiece(pieceRow - 1, pieceColumn - 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn - 1) + ")");
+        pieceRow--;
+        pieceColumn--;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && (pieceRow - 1 >= 0 && pieceColumn - 1 >= 0));//while
+
+    pieceRow = rowToStartAt;
+    pieceColumn = columnToStartAt;
+    do
+    {
+      if(!(getPiece(pieceRow + 1, pieceColumn - 1) instanceof King
+              && getPiece(pieceRow + 1, pieceColumn - 1).getTeam().equals(checkingPieceTeam)))
+      {
+        setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn - 1) + ")");
+        pieceRow++;
+        pieceColumn--;
+      }
+    }while(getPiece(pieceRow, pieceColumn) == null && (pieceRow + 1 <= 7 && pieceColumn - 1 >= 0));//
+//    System.out.println("Black(d) " + setOfBlackCheckPositions);
+//    System.out.println();
+//    System.out.println("White(d) " + setOfWhiteCheckPositions);
+//    System.out.println();
+  }//addDiagonalCheckPositions
+
+  private void addKnightCheckPositions(String checkingPieceTeam, Set<String> setToAppend, int rowToStartAt, int columnToStartAt)
+  {
+    int pieceRow = rowToStartAt;
+    int pieceColumn = columnToStartAt;
+    //can't start at (row, column) because the current piece is never null
+    if(!(getPiece(pieceRow + 1, pieceColumn - 1) instanceof King
+            && getPiece(pieceRow + 1, pieceColumn - 1).getTeam().equals(checkingPieceTeam)))
+    {
+      setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn + 2) + ")");
+      setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn + 2) + ")");
+      setToAppend.add("(" + (pieceRow + 2) + "," + (pieceColumn + 1) + ")");
+      setToAppend.add("(" + (pieceRow + 2) + "," + (pieceColumn - 1) + ")");
+      setToAppend.add("(" + (pieceRow - 2) + "," + (pieceColumn + 1) + ")");
+      setToAppend.add("(" + (pieceRow - 2) + "," + (pieceColumn - 1) + ")");
+      setToAppend.add("(" + (pieceRow + 1) + "," + (pieceColumn - 2) + ")");
+      setToAppend.add("(" + (pieceRow - 1) + "," + (pieceColumn - 2) + ")");
+    }
+
+//    System.out.println("Black(k) " + setOfBlackCheckPositions);
+//    System.out.println();
+//    System.out.println("White(k) " + setOfWhiteCheckPositions);
+//    System.out.println();
+  }//addDiagonalCheckPositions
+
 }// Board Class

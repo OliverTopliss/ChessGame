@@ -15,9 +15,11 @@ public class Pawn extends Piece
   @Override
   public void move(int xDestination, int yDestination)
   {
+    System.out.println("moving");
+    boolean validMove = isValidMove(xDestination, yDestination);
     // if the motion is only vertical by 1 space then it is valid
     if((abs(getCurrentXCoordinate() - xDestination) == 0 || abs(getCurrentXCoordinate() - xDestination) == 1)
-            && (abs(getCurrentYCoordinate() - yDestination) == 1))
+            && (abs(getCurrentYCoordinate() - yDestination) == 1) && validMove)
     {
       //clears the pawn's current position
       getBoard().setBoard(getCurrentXCoordinate(), getCurrentYCoordinate(), null);
@@ -34,6 +36,7 @@ public class Pawn extends Piece
         chessGame.setResurrectionButtonsPanelVisible(true);
       }
 
+      getBoard().updateCheckPositions();
     }// if
     else
       System.out.println("That move was invalid. Please try again.");
@@ -61,8 +64,11 @@ public class Pawn extends Piece
   //method that determines if the requested pawn move is valid
   public boolean isValidMove(int destinationXCoordinate, int destinationYCoordinate)
   {
+    System.out.println("checking move is valid");
     //a move is only valid for a pawn if the pawn will move to a null place or will take a piece
-    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))  && !isMoveSideways( destinationXCoordinate, destinationYCoordinate);
+    return willTakePiece(getBoard().getBoard(destinationXCoordinate, destinationYCoordinate))
+            && !isMoveSideways(destinationXCoordinate, destinationYCoordinate)
+            && !checksOwnPiece(destinationXCoordinate, destinationYCoordinate);
   }//isValidMove method
 
   private boolean isMoveSideways(int xDestination, int yDestination)
